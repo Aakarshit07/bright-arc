@@ -171,7 +171,7 @@ export default function Navigation() {
               <SheetContent side="right" className="w-full sm:w-80">
                 <SheetHeader className="flex flex-row items-center justify-between space-y-0 pb-4 border-b">
                   <div className="flex items-center space-x-2">
-                    <div className="w-8 h-8 bg-gradient-to-br from-primary-600 to-secondary-500 rounded-md flex items-center justify-center">
+                    <div className="w-8 h-8 bg-linear-to-br from-primary-600 to-secondary-500 rounded-md flex items-center justify-center">
                       <span className="text-white font-bold text-sm">B</span>
                     </div>
                     <SheetTitle className="text-xl font-semibold text-gray-900">

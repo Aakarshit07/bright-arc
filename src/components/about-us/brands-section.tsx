@@ -54,7 +54,7 @@ export default function BrandsSection() {
               <div
                 key={index}
                 className={cn(
-                  "flex items-center justify-center p-6 bg-white rounded-lg shadow-sm flex-shrink-0 w-[200px]",
+                  "flex items-center justify-center p-6 bg-white rounded-lg shadow-sm shrink-0 w-[200px]",
                   "lg:w-full",
                 )}
               >

@@ -44,7 +44,7 @@ export default function FAQSection() {
               <AccordionTrigger className="py-6 px-0 hover:no-underline hover:bg-transparent [&[data-state=open]>div>div]:rotate-45 [&>svg]:hidden">
                 <div className="flex items-center justify-between w-full">
                   <span className="text-left text-lg font-medium text-gray-900 pr-4">{faq.question}</span>
-                  <div className="flex-shrink-0">
+                  <div className="shrink-0">
                     <div className="w-12 h-12 bg-black rounded-full flex items-center justify-center transition-transform duration-200">
                       <Plus className="h-5 w-5 text-white transition-transform duration-200" />
                     </div>

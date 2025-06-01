@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button"
 
 export default function JoinJourneySection() {
   return (
-    <section className="py-16 lg:py-24 bg-gradient-to-br from-primary-50 to-primary-100 relative overflow-hidden">
+    <section className="py-16 lg:py-24 bg-linear-to-br from-primary-50 to-primary-100 relative overflow-hidden">
       {/* Background decorative element */}
       <div className="absolute inset-0 flex items-center justify-center opacity-10">
         <div className="w-96 h-96 bg-gray-300 rounded-full flex items-center justify-center">

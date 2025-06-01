@@ -62,7 +62,7 @@ export default function TeamSection() {
           {teamMembers.map((member, index) => (
             <Card
               key={index}
-              className={cn("overflow-hidden border-0 shadow-md group flex-shrink-0 w-[280px]", "sm:w-full")}
+              className={cn("overflow-hidden border-0 shadow-md group shrink-0 w-[280px]", "sm:w-full")}
             >
               <div className="relative">
                 <img
@@ -70,7 +70,7 @@ export default function TeamSection() {
                   alt={member.name}
                   className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
                 />
-                <CardContent className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/70 to-transparent text-white">
+                <CardContent className="absolute bottom-0 left-0 right-0 p-4 bg-linear-to-t from-black/70 to-transparent text-white">
                   <h3 className="font-semibold text-lg">{member.name}</h3>
                   <p className="text-sm opacity-90">{member.role}</p>
                   <div className="flex space-x-2 mt-2">
