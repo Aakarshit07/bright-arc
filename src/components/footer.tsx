@@ -128,9 +128,6 @@ export function Footer() {
                   </Link>
                 ))}
               </div>
-              <div>
-                <p>Copyright &copy; 2023 Bunch Studios</p>
-              </div>
             </div>
           </div>
         </div>

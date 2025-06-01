@@ -43,12 +43,6 @@ export default function BrandsSection() {
               msOverflowStyle: "none" /* IE and Edge */,
             }}
           >
-            {/* Hide scrollbar for Chrome, Safari and Opera */}
-            <style jsx global>{`
-              .brands-scroll::-webkit-scrollbar {
-                display: none;
-              }
-            `}</style>
 
             {brands.map((brand, index) => (
               <div

@@ -2,7 +2,8 @@ import type React from "react"
 import type { Metadata } from "next"
 import { Poppins } from "next/font/google"
 import "./globals.css"
-import Navigation from "@/components/about-us/navigation";
+import Header from "@/components/about-us/header";
+import { Footer } from "@/components/footer";
 // import { Toaster } from "@/components/ui/toaster"
 
 const poppins = Poppins({
@@ -26,11 +27,10 @@ export default function RootLayout({
   return (
     <html lang="en" >
       <body className={`${poppins.variable} font-poppins`}>
-        <header >
-        <Navigation />
-        </header>
+        <Header />
         {children}
         {/* <Toaster /> */}
+        <Footer />
       </body>
     </html>
   )
