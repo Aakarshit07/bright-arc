@@ -3,7 +3,7 @@ import { Twitter, Instagram, Linkedin, Youtube } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import bright_logo from "../../public/logo_sub.png";
+import bright_logo from "../../../public/logo_sub.png";
 
 const footerSections = {
   services: [

@@ -1,6 +1,6 @@
 import AchievementsSection from "@/components/about-us/achievements-section";
 import BrandsSection from "@/components/about-us/brands-section";
-import FAQSection from "@/components/about-us/faq-section";
+import FAQSection from "@/components/faqs/faq-section";
 import HeroSection from "@/components/about-us/hero-section";
 import JoinJourneySection from "@/components/about-us/join-journey-section";
 import OurStorySection from "@/components/about-us/our-story-section";

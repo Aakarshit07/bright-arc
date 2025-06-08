@@ -1,4 +1,4 @@
-import { PageBreadcrumb } from "@/components/ui/page-breadcrumb"
+// import { PageBreadcrumb } from "@/components/ui/page-breadcrumb"
 
 export default function HeroSection() {
   const breadcrumbItems = [{ label: "Home", href: "/" }, { label: "About Us" }]
@@ -22,10 +22,10 @@ export default function HeroSection() {
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
-        {/* Breadcrumb */}
+        {/* Breadcrumb
         <div className="mb-8">
           <PageBreadcrumb items={breadcrumbItems} />
-        </div>
+        </div> */}
 
         {/* Main heading container */}
         <div

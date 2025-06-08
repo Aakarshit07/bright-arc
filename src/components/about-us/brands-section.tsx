@@ -58,18 +58,6 @@ export default function BrandsSection() {
           </div>
         </div>
       </div>
-      <style jsx>{`
-        @media (max-width: 1023px) {
-          section {
-            background: linear-gradient(to bottom, var(--Primary-100, #DAECFF) 0%, var(--Secondary-50, #FFFEE7) 100%) !important;
-          }
-        }
-        @media (min-width: 1024px) {
-          section {
-            background: conic-gradient(from 180deg at 50% 50%, var(--Primary-100, #DAECFF) 0deg, var(--Secondary-50, #FFFEE7) 360deg) !important;
-          }
-        }
-      `}</style>
     </section>
   )
 }
