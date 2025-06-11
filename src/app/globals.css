@@ -97,8 +97,8 @@
   .fancy-gradient-bg {
     background: linear-gradient(
           to bottom right,
-          var(--Primary-400, #daecff) 0%,
-          var(--Primary-100, #5aadff) 50%
+          var(--Primary-400, #5aadff) 0%,
+          var(--Primary-100, #daecff) 50%
         )
         bottom right / 50% 50% no-repeat,
       linear-gradient(
