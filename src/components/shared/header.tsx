@@ -54,7 +54,7 @@ export default function Header() {
   const [isOpen, setIsOpen] = React.useState(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-white">
+    <header className="sticky top-0 z-50 w-full bg-white/60 backdrop-blur-md">
       <div className="flex h-16 items-center justify-between px-8">
         {/* Logo */}
         <Link href="/" className="flex items-center space-x-2">
@@ -75,7 +75,7 @@ export default function Header() {
                   className={navigationMenuTriggerStyle()}
                   asChild
                 >
-                  <Link href="/about">About Us</Link>
+                  <Link href="/about-us">About Us</Link>
                 </NavigationMenuLink>
               </NavigationMenuItem>
 
@@ -152,7 +152,7 @@ export default function Header() {
                   className={navigationMenuTriggerStyle()}
                   asChild
                 >
-                  <Link href="/contact">Contact Us</Link>
+                  <Link href="/contact-us">Contact Us</Link>
                 </NavigationMenuLink>
               </NavigationMenuItem>
             </NavigationMenuList>
@@ -181,7 +181,7 @@ export default function Header() {
               </SheetHeader>
               <div className="flex flex-col space-y-4">
                 <Link
-                  href="/about"
+                  href="/about-us"
                   className="px-2 py-1 text-lg font-medium hover:text-primary-600 transition-colors"
                   onClick={() => setIsOpen(false)}
                 >
@@ -215,7 +215,7 @@ export default function Header() {
                   Success Stories
                 </Link>
                 <Link
-                  href="/contact"
+                  href="/contact-us"
                   className="px-2 py-1 text-lg font-medium hover:text-primary-600 transition-colors"
                   onClick={() => setIsOpen(false)}
                 >

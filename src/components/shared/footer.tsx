@@ -12,20 +12,29 @@ const footerSections = {
     { name: "CMS Support", href: "#" },
     { name: "On-Page SEO", href: "#" },
   ],
+
   jumpTo: [
     { name: "Header", href: "#header" },
     { name: "Portfolio", href: "#portfolio" },
-    { name: "Services", href: "#services" },
-    { name: "Testimonials", href: "#testimonials" },
-    { name: "Contact us", href: "#contact" },
+    { name: "Services", href: "services" },
+    { name: "Testimonials", href: "success-stories" },
+    { name: "Contact us", href: "contact-us" },
   ],
 };
 
 const socialLinks = [
-  { icon: Twitter, href: "https://x.com/bunch_studios", label: "Twitter" },
-  { icon: Instagram, href: "https://www.instagram.com/bunch_studios07", label: "Instagram" },
-  { icon: Linkedin, href: "https://www.linkedin.com/in/bunch-studios/", label: "LinkedIn" },
-  { icon: Youtube, href: "/", label: "YouTube" },
+  { icon: Twitter, href: "https://x.com/", label: "Twitter" },
+  {
+    icon: Instagram,
+    href: "https://www.instagram.com/",
+    label: "Instagram",
+  },
+  {
+    icon: Linkedin,
+    href: "https://www.linkedin.com/",
+    label: "LinkedIn",
+  },
+  { icon: Youtube, href: "https://www.youtube.com/", label: "YouTube" },
 ];
 
 const legalLinks = [
@@ -62,7 +71,7 @@ export function Footer() {
             </div>
 
             {/* Right Side Container */}
-            <div className="flex flex-row gap-8" style={{width: "300px"}}>
+            <div className="flex flex-row gap-8" style={{ width: "300px" }}>
               {/* Services */}
               <div className="space-y-4">
                 <h3 className="text-lg font-semibold text-white">Services</h3>
