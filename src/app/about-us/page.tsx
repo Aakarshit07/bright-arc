@@ -5,12 +5,11 @@ import HeroSection from "@/components/about-us/hero-section";
 import JoinJourneySection from "@/components/about-us/join-journey-section";
 import OurStorySection from "@/components/about-us/our-story-section";
 import TeamSection from "@/components/about-us/team-section";
-
+import { DefaultLayout } from "@/components/layout/default-layout";
 
 export default function AboutPage() {
   return (
-    <main className="min-h-screen bg-white">
-      
+    <DefaultLayout>
       <HeroSection />
 
       <div className="flex flex-col gap-[70px] md:gap-[106px]">
@@ -21,6 +20,6 @@ export default function AboutPage() {
         <BrandsSection />
         <JoinJourneySection />
       </div>
-    </main>
-  )
+    </DefaultLayout>
+  );
 }

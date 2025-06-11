@@ -121,4 +121,13 @@
         top right / 50% 50% no-repeat;
     background-repeat: no-repeat;
   }
+
+  .custom-gradient-border {
+    border-radius: 2px;
+    background: linear-gradient(
+      180deg,
+      var(--Secondary-200, #fff986) 0%,
+      var(--Accent_purple-500, #ee47d5) 100%
+    );
+  }
 }
