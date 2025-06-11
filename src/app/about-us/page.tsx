@@ -13,11 +13,11 @@ export default function AboutPage() {
       <div className="flex flex-col gap-[70px] md:gap-[106px]">
         <HeroSection />
         <OurStorySection />
-        <AchievementsSection />
-        <FAQSection />
         <TeamSection />
         <BrandsSection />
+        <AchievementsSection />
         <JoinJourneySection />
+        <FAQSection />
       </div>
     </DefaultLayout>
   );
