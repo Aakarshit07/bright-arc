@@ -5,8 +5,6 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  // CarouselNext,
-  // CarouselPrevious,
 } from "@/components/ui/carousel";
 import { TestimonialCard } from "./testimonial-card";
 import { cn } from "@/lib/utils";
@@ -105,7 +103,7 @@ export function SuccessStoriesPage({ className }: ISuccessStoriesPageProps) {
   }, [api]);
 
   return (
-    <section className={cn("py-16", className)}>
+    <section className={cn("", className)}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Main Content */}
         <div className="flex flex-col sm:flex-row gap-10 sm:gap-16 items-center sm:items-start sm:justify-between">
@@ -162,8 +160,6 @@ export function SuccessStoriesPage({ className }: ISuccessStoriesPageProps) {
                   </CarouselItem>
                 ))}
               </CarouselContent>
-              {/* <CarouselPrevious className="hidden lg:flex" />
-              <CarouselNext className="hidden lg:flex" /> */}
             </Carousel>
           </div>
         </div>

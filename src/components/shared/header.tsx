@@ -54,7 +54,7 @@ export default function Header() {
   const [isOpen, setIsOpen] = React.useState(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-white/60 backdrop-blur-md">
+    <header className="sticky top-0 z-50 w-full bg-white/95">
       <div className="flex h-16 items-center justify-between px-8">
         {/* Logo */}
         <Link href="/" className="flex items-center space-x-2">

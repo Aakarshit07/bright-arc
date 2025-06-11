@@ -130,6 +130,35 @@
       var(--Accent_purple-500, #ee47d5) 100%
     );
   }
+
+  .fancy-corner-gradient {
+    background: linear-gradient(
+          to bottom right,
+          var(--Primary-400, #5aadff) 0%,
+          var(--Primary-100, #daecff) 50%
+        )
+        bottom right / 50% 50% no-repeat,
+      linear-gradient(
+          to bottom left,
+          var(--Primary-400, #5aadff) 0%,
+          var(--Primary-100, #daecff) 50%
+        )
+        bottom left / 50% 50% no-repeat,
+      linear-gradient(
+          to top left,
+          var(--Primary-400, #5aadff) 0%,
+          var(--Primary-100, #daecff) 50%
+        )
+        top left / 50% 50% no-repeat,
+      linear-gradient(
+          to top right,
+          var(--Primary-400, #5aadff) 0%,
+          var(--Primary-100, #daecff) 50%
+        )
+        top right / 50% 50% no-repeat;
+    background-repeat: no-repeat;
+    background-size: 50% 50%;
+  }
 }
 
 @keyframes scroll-ltr {
