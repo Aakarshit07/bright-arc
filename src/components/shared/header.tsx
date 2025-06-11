@@ -87,9 +87,9 @@ export default function Header() {
                       <NavigationMenuLink asChild>
                         <a
                           className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
-                          href="/services"
+                          href="/our-services"
                         >
-                          <div className="mb-2 mt-4 text-lg font-medium">
+                          <div className="text-lg font-medium">
                             Our Services
                           </div>
                           <p className="text-sm leading-tight text-muted-foreground">
@@ -99,10 +99,10 @@ export default function Header() {
                         </a>
                       </NavigationMenuLink>
                     </li>
-                    <ListItem href="/services/service-1" title="Service 1">
+                    <ListItem href="/our-services" title="Service 1">
                       Description for Service 1
                     </ListItem>
-                    <ListItem href="/services/service-2" title="Service 2">
+                    <ListItem href="/our-services" title="Service 2">
                       Description for Service 2
                     </ListItem>
                   </ul>
@@ -190,7 +190,7 @@ export default function Header() {
                 <div className="px-2 py-1">
                   <div className="flex items-center justify-between text-lg font-medium">
                     <Link
-                      href="/services"
+                      href="/our-services"
                       className="hover:text-primary-600 transition-colors"
                     >
                       Services

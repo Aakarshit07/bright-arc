@@ -14,8 +14,11 @@ import {
 } from "@/components/ui/select";
 import { Phone, VoicemailIcon as Fax, Mail } from "lucide-react";
 import { cn } from "@/lib/utils";
-import Image from "next/image";
-import mapImage from "../../../public/placeholder.svg";
+import dynamic from "next/dynamic";
+
+const MapLeaflet = dynamic(() => import("@/components/shared/MapLeaflet"), {
+  ssr: false,
+});
 
 interface ContactFormProps {
   className?: string;
@@ -95,7 +98,7 @@ export function ContactForm({ className }: ContactFormProps) {
                       adipiscing. Eu leo molestie vel, ornare non id blandit
                       netus.
                     </p>
-                    
+
                     {/* Form */}
                     <form onSubmit={handleSubmit} className="space-y-5">
                       {/* Name Field */}
@@ -230,14 +233,7 @@ export function ContactForm({ className }: ContactFormProps) {
                 <div className="w-full lg:w-[40%] p-8 lg:p-12 lg:pl-0 flex items-center justify-center lg:justify-end">
                   <div className="w-full max-w-md">
                     <div className="relative">
-                      <Image
-                        src={mapImage}
-                        alt="Modern office workspace with blue and white furniture"
-                        className="w-full h-auto rounded-2xl shadow-lg object-cover"
-                        style={{ aspectRatio: "4/5" }}
-                        width={400}
-                        height={300}
-                      />
+                      <MapLeaflet />
                     </div>
                   </div>
                 </div>

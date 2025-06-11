@@ -1,32 +1,18 @@
-import { TestimonialCard } from "@/components/success-stories/testimonial-card";
+import AchievementsSection from "@/components/about-us/achievements-section";
+import JoinJourneySection from "@/components/about-us/join-journey-section";
+import FAQSection from "@/components/faqs/faq-section";
+import { DefaultLayout } from "@/components/layout/default-layout";
+import { PartnersSection } from "@/components/shared/partner-section";
 
 export default function Home() {
-  const testimonials = [
-    {
-      id: 1,
-      name: "Lorem Ipsum",
-      position: "Executive Assistant",
-      company: "ABZ Company",
-      testimonial:
-        "I loved the 1:1 guidance provided at Bright Arc. The mentorship experience was beyond anything, definitely recommended.",
-      imageUrl: "/real-2.jpeg",
-    },
-  ];
-
   return (
-    <div className="border-2 border-primary-500">
-      {testimonials.map((testimonial, index) => (
-        <TestimonialCard
-          key={testimonial.id}
-          name={testimonial.name}
-          position={testimonial.position}
-          company={testimonial.company}
-          testimonial={testimonial.testimonial}
-          imageUrl={testimonial.imageUrl}
-          className="w-full"
-          isActive={false}
-        />
-      ))}
-    </div>
+    <DefaultLayout>
+      <div className="flex flex-col gap-[70px] md:gap-[106px]">
+        <PartnersSection />
+        <AchievementsSection />
+        <JoinJourneySection />
+        <FAQSection />
+      </div>
+    </DefaultLayout>
   );
 }

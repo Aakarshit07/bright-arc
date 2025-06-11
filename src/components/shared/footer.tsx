@@ -16,7 +16,7 @@ const footerSections = {
   jumpTo: [
     { name: "Header", href: "#header" },
     { name: "Portfolio", href: "#portfolio" },
-    { name: "Services", href: "services" },
+    { name: "Services", href: "our-services" },
     { name: "Testimonials", href: "success-stories" },
     { name: "Contact us", href: "contact-us" },
   ],
