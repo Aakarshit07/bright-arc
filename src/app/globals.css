@@ -1,10 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100..900&display=swap");
 
 @import "tailwindcss";
 @plugin 'tailwindcss-animate';
 @source '../../*.{js,ts,jsx,tsx,mdx}';
 @custom-variant dark (&:is(.dark *));
-
 
 @theme {
   --color-*: initial;
@@ -92,4 +91,34 @@
 
 .bg-gradient-radial {
   background: radial-gradient(ellipse at center, #e1e2fe, #c8cafd, #a8a7fa);
+}
+
+@layer utilities {
+  .fancy-gradient-bg {
+    background: linear-gradient(
+          to bottom right,
+          var(--Primary-400, #daecff) 0%,
+          var(--Primary-100, #5aadff) 50%
+        )
+        bottom right / 50% 50% no-repeat,
+      linear-gradient(
+          to bottom left,
+          var(--Primary-400, #5aadff) 0%,
+          var(--Primary-100, #daecff) 50%
+        )
+        bottom left / 50% 50% no-repeat,
+      linear-gradient(
+          to top left,
+          var(--Primary-400, #5aadff) 0%,
+          var(--Primary-100, #daecff) 50%
+        )
+        top left / 50% 50% no-repeat,
+      linear-gradient(
+          to top right,
+          var(--Primary-400, #5aadff) 0%,
+          var(--Primary-100, #daecff) 50%
+        )
+        top right / 50% 50% no-repeat;
+    background-repeat: no-repeat;
+  }
 }
