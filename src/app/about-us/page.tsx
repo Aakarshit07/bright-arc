@@ -10,9 +10,8 @@ import { DefaultLayout } from "@/components/layout/default-layout";
 export default function AboutPage() {
   return (
     <DefaultLayout>
-      <HeroSection />
-
       <div className="flex flex-col gap-[70px] md:gap-[106px]">
+        <HeroSection />
         <OurStorySection />
         <AchievementsSection />
         <FAQSection />
