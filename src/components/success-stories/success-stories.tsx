@@ -104,7 +104,7 @@ export function SuccessStoriesPage({ className }: ISuccessStoriesPageProps) {
 
   return (
     <section className={cn("", className)}>
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 mb-8">
         {/* Main Content */}
         <div className="flex flex-col sm:flex-row gap-10 sm:gap-16 items-center sm:items-start sm:justify-between">
           {/* Left Side - Static Content */}
@@ -138,7 +138,6 @@ export function SuccessStoriesPage({ className }: ISuccessStoriesPageProps) {
               orientation="vertical"
               opts={{
                 align: "center",
-                loop: true,
                 slidesToScroll: 1,
                 dragFree: true,
                 duration: 1500,
