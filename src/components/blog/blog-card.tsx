@@ -113,7 +113,7 @@ const BlogCard: React.FC<IBlogCardProps> = ({
             <h3
               className={cn(
                 "text-xl laptop:text-2xl font-medium mb-4 mt-2 text-gray-950 leading-normal",
-                "group-hover:text-primary transition-colors duration-200"
+                "group-hover:text-primary transition-colors duration-200 line-clamp-1 text-ellipsis"
               )}
             >
               {title}
@@ -122,7 +122,9 @@ const BlogCard: React.FC<IBlogCardProps> = ({
             <p
               className={cn(
                 "text-gray-900 text-base leading-relaxed",
-                isHorizontal ? "laptop:line-clamp-4" : "line-clamp-3"
+                isHorizontal
+                  ? "laptop:line-clamp-4"
+                  : "line-clamp-3 text-ellipsis"
               )}
             >
               {description.length > 190
