@@ -60,7 +60,12 @@ export function TestimonialCarousel({
   const currentTestimonial = testimonials[currentIndex];
 
   return (
-    <div className={cn("w-full  max-w-4xl mx-auto bg-primary-100", className)}>
+    <div
+      className={cn(
+        "rounded-2xl max-w-7xl mx-auto bg-primary-100 px-4 py-8 lg:pt-[86px] lg:px-[168px] lg:pb-7",
+        className
+      )}
+    >
       {/* Main Testimonial Card */}
       <div className="relative bg-primary-100 ">
         {/* Desktop Layout - Horizontal */}
