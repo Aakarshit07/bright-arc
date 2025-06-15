@@ -162,7 +162,7 @@ export const sampleBlogContent = {
   authorImage: "/placeholder.svg?height=40&width=40&text=SJ",
   date: "June 15, 2024",
   readTime: "8 min read",
-  heroImage: "/placeholder.svg?height=400&width=1200&text=Summer+Startup+Vibes",
+  heroImage: "/blog_main.jpeg",
   category: "Consulting",
   content: `
     <div class="blog-content">

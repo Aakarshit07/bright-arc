@@ -1,12 +1,12 @@
-"use client"
+"use client";
 
-import type React from "react"
-import { Toaster } from "sonner"
-import Header from "../shared/header"
-import { Footer } from "../shared/footer"
+import type React from "react";
+import { Toaster } from "sonner";
+import Header from "../shared/header";
+import { Footer } from "../shared/footer";
 
 interface DefaultLayoutProps {
-  children: React.ReactNode
+  children: React.ReactNode;
 }
 
 export function DefaultLayout({ children }: DefaultLayoutProps) {
@@ -17,5 +17,5 @@ export function DefaultLayout({ children }: DefaultLayoutProps) {
       <Footer />
       <Toaster position="top-right" richColors closeButton duration={4000} />
     </main>
-  )
+  );
 }

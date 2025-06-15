@@ -57,11 +57,11 @@ export function BlogLayout({ className = "" }: BlogLayoutProps) {
       />
 
       {/* Main Content */}
-      <div className="container mx-auto px-4 max-w-6xl py-8">
+      <div className="container mx-auto px-4 max-w-6xl py-4 lg:py-8">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          {/* Sidebar */}
-          <div className="lg:col-span-1 order-2 lg:order-1">
-            <div className="sticky top-24">
+          {/* Sidebar - Top in mobile, left in desktop */}
+          <div className="lg:col-span-1 order-1 lg:order-1">
+            <div className="sticky lg:top-24">
               <BlogSidebarInfo
                 author={sampleBlogContent.author}
                 authorImage={sampleBlogContent.authorImage}
@@ -76,8 +76,8 @@ export function BlogLayout({ className = "" }: BlogLayoutProps) {
             </div>
           </div>
 
-          {/* Main Content */}
-          <div className="lg:col-span-3 order-1 lg:order-2">
+          {/* Main Content - Below sidebar in mobile, right in desktop */}
+          <div className="lg:col-span-3 order-2 lg:order-2">
             <div className="max-w-4xl">
               <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight">
                 {sampleBlogContent.title}
