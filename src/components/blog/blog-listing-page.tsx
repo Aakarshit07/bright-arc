@@ -4,7 +4,7 @@ import { useBlogFilter } from "@/components/hooks/useBlogFilter";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
-import { blogCategories, blogData } from "./blogData";
+import { blogCategories, blogData } from "../../lib/blogData";
 import { BlogCategoryTabs } from "@/components/blog/blog-category-tabs";
 import { BlogList } from "@/components/blog/blog-list";
 import BlogHeroSection from "@/components/blog/blog-hero-section";
