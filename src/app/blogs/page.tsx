@@ -1,10 +1,10 @@
 import { DefaultLayout } from "@/components/layout/default-layout";
+import BlogListingPage from "@/lib/blog-listing-page";
 
-export default function TestimonialCarouselDemo() {
+export default function BlogsPage() {
   return (
     <DefaultLayout>
-      {/* Carousel Component */}
-      hii
+      <BlogListingPage />
     </DefaultLayout>
   );
 }

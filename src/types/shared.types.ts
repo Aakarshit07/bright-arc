@@ -26,3 +26,20 @@ export interface IUseStepsReturn {
   activeStep: string;
   setActiveStep: (stepId: string) => void;
 }
+
+export interface IBlog {
+  id: string;
+  title: string;
+  description: string;
+  author: string;
+  date: string;
+  category: string;
+  featured?: boolean;
+  imageUrl?: string;
+}
+
+export interface IBlogCategory {
+  name: string;
+  value: string;
+  count: number;
+}
