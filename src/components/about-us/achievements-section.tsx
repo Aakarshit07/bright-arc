@@ -27,7 +27,7 @@ export default function AchievementsSection() {
                 <div className="flex items-start space-x-3">
                   <div className="w-1 h-16 rounded-full custom-gradient-border"></div>
                   <div>
-                    <div className="text-3xl lg:text-4xl font-bold text-gray-900 mb-1">
+                    <div className="text-3xl text-left lg:text-4xl font-bold text-gray-900 mb-1">
                       {achievement.number}
                     </div>
                     <div className="text-gray-600 text-sm">

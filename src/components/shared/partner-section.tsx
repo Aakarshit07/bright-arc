@@ -18,11 +18,11 @@ export function PartnersSection() {
         <div className="flex animate-infinite-scroll">
           {/* Multiple sets for seamless infinite loop */}
           {[...Array(4)].map((_, setIndex) => (
-            <div key={setIndex} className="flex shrink-0">
+            <div key={setIndex} className="flex shrink-0 gap-8">
               {partners.map((partner, index) => (
                 <div
                   key={`${setIndex}-${index}`}
-                  className="shrink-0 mx-8 lg:mx-12 flex items-center justify-center"
+                  className="shrink-0 mx-10 lg:mx-20 flex items-center justify-center"
                 >
                   <Image
                     src={partner.logo || "/placeholder.svg"}

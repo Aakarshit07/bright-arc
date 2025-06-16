@@ -4,8 +4,8 @@ import Image from "next/image";
 
 export default function HomeHeroSection() {
   return (
-    <section className="pt-10 lg:pt-24 pb-16 lg:pb-24 bg-white">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="pt-10 lg:pt-24  bg-white">
+      <div className="container mx-auto px-4 max-w-7xl">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Left Content */}
           <div className="space-y-8">

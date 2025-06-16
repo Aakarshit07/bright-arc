@@ -52,7 +52,7 @@ export function MobileStepsAccordion({
               </div>
             </AccordionTrigger>
             <AccordionContent className="pb-0">
-              <div className="bg-white rounded-b-lg space-y-4 -mt-1">
+              <div className="bg-white rounded-b-lg space-y-4 -mt-1 flex flex-col items-center">
                 <h3 className="text-lg font-bold text-gray-900 leading-tight">
                   {step.heading}
                 </h3>

@@ -18,8 +18,8 @@ export default function StepsSection({
   });
 
   return (
-    <section className="w-full py-8 xl:py-16">
-      <div className="container px-4 xl:px-6 max-w-7xl mx-auto">
+    <section className="w-full">
+      <div className="container px-4 max-w-7xl mx-auto">
         <StepsHeaderSection
           title="Unlock your full potential with the Experts at Bright Arcs"
           description="Support the empowers with Guidance that completely transforms your life Support the empowers with Guidance that completely transforms your life."

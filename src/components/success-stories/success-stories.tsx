@@ -9,6 +9,7 @@ import {
 import { TestimonialCard } from "./testimonial-card";
 import { cn } from "@/lib/utils";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 interface ISuccessStoriesPageProps {
   className?: string;
@@ -102,6 +103,8 @@ export function SuccessStoriesPage({ className }: ISuccessStoriesPageProps) {
     };
   }, [api]);
 
+  const navigate = useRouter();
+
   return (
     <section className={cn("", className)}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 mb-8">
@@ -126,7 +129,10 @@ export function SuccessStoriesPage({ className }: ISuccessStoriesPageProps) {
               Ipsum
             </p>
 
-            <Button className="bg-primary-800 hover:bg-primary-900 text-white w-full px-8 py-3 text-sm font-bold">
+            <Button
+              className="bg-primary-800 hover:bg-primary-900 text-white w-full px-8 py-3 text-sm font-bold"
+              onClick={() => navigate.replace("/contact-us")}
+            >
               Share Your Story
             </Button>
           </div>
