@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { IStep } from "@/types/shared.types";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 interface MobileStepsAccordionProps {
   steps: IStep[];
@@ -22,6 +23,11 @@ export function MobileStepsAccordion({
   activeStep,
   onStepChange,
 }: MobileStepsAccordionProps) {
+  const navigate = useRouter();
+  const handleLearnMoreClick = (id: string) => {
+    navigate.push("/our-services#" + id);
+  };
+
   return (
     <div className="block xl:hidden">
       <Accordion
@@ -59,7 +65,10 @@ export function MobileStepsAccordion({
                 <p className="text-gray-600 text-sm leading-relaxed">
                   {step.description}
                 </p>
-                <Button className="bg-primary-900 hover:bg-primary-700 text-white w-full py-2 rounded-md font-medium">
+                <Button
+                  className="bg-primary-900 hover:bg-primary-700 text-white w-full py-2 rounded-md font-medium"
+                  onClick={() => handleLearnMoreClick(step.id)}
+                >
                   Learn More
                 </Button>
                 <div className="relative w-[340px] h-[260px]">

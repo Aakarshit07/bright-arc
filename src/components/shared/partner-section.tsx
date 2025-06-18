@@ -12,7 +12,7 @@ const partners = [
 
 export function PartnersSection() {
   return (
-    <section className="py-10 lg:py-12 bg-secondary-50 overflow-hidden">
+    <section className="py-10 lg:py-12 bg-primary-50 overflow-hidden">
       <div className="relative">
         {/* Infinite scrolling container */}
         <div className="flex animate-infinite-scroll">
@@ -38,8 +38,8 @@ export function PartnersSection() {
         </div>
 
         {/* Gradient overlays for smooth fade effect */}
-        <div className="absolute left-0 top-0 bottom-0 w-32 bg-linear-to-r from-secondary-50 to-transparent z-10 pointer-events-none"></div>
-        <div className="absolute right-0 top-0 bottom-0 w-32 bg-linear-to-l from-secondary-50 to-transparent z-10 pointer-events-none"></div>
+        <div className="absolute left-0 top-0 bottom-0 w-32 bg-linear-to-r from-primary-50 to-transparent z-10 pointer-events-none"></div>
+        <div className="absolute right-0 top-0 bottom-0 w-32 bg-linear-to-l from-primary-50 to-transparent z-10 pointer-events-none"></div>
       </div>
     </section>
   );

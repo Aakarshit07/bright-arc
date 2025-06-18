@@ -29,7 +29,7 @@ const services = [
 export default function OurServices() {
   return (
     <section className="py-16 bg-primary-50">
-      <div className="container max-w-6xl px-4 mx-auto space-y-12">
+      <div className="container max-w-6xl px-4 mx-auto space-y-24">
         {services.map((service, index) => (
           <ServiceItem
             key={service.title}

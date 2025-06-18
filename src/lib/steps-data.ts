@@ -11,7 +11,7 @@ export const DEFAULT_STEPS: IStep[] = [
     image: "/placeholder.svg?height=300&width=400&text=Mentorship+Image",
   },
   {
-    id: "thought-leadership",
+    id: "leadership",
     number: "2",
     title: "Thought leadership - Industry Insights and Academic Writing",
     heading: "Expert Industry Insights & Academic Excellence",

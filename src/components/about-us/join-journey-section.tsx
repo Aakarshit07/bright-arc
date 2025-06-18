@@ -1,7 +1,11 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export default function JoinJourneySection() {
+  const navigate = useRouter();
+  const handleJoinClick = () => navigate.push("/contact-us");
   return (
     <section className="py-8 lg:py-12 bg-gradient-to-br from-primary-50 to-primary-100 relative overflow-hidden">
       {/* Background decorative element */}
@@ -48,7 +52,10 @@ export default function JoinJourneySection() {
               imprentas y archivos de texto. Lorem Ipsum ha sido el texto de
               relleno estándar de las industrias desde el año
             </p>
-            <Button className="bg-primary-900 hover:bg-primary-800 text-white px-4 py-3 text-lg font-medium">
+            <Button
+              className="bg-primary-900 hover:bg-primary-800 text-white px-4 py-3 text-lg font-medium"
+              onClick={handleJoinClick}
+            >
               Join Now
             </Button>
           </div>

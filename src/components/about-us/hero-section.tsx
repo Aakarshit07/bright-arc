@@ -1,6 +1,6 @@
 export default function HeroSection() {
   return (
-    <section className="relative overflow-hidden fancy-gradient-bg">
+    <section className="relative overflow-hidden fancy-corner-gradient">
       {/* Yellow curved design element */}
       <div
         className="absolute inset-0 bg-no-repeat"

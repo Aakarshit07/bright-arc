@@ -1,6 +1,8 @@
+"use client";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { IStep } from "@/types/shared.types";
+import { useRouter } from "next/navigation";
 
 interface StepContentProps {
   step: IStep;
@@ -8,6 +10,11 @@ interface StepContentProps {
 }
 
 export function StepContent({ step, className = "" }: StepContentProps) {
+  const navigate = useRouter();
+  const handleLearnMoreClick = (id: string) => {
+    navigate.push("/our-services#" + id);
+  };
+
   return (
     <div className={`flex items-center justify-between gap-32 ${className}`}>
       <div className="w-full">
@@ -22,7 +29,10 @@ export function StepContent({ step, className = "" }: StepContentProps) {
         <p className="text-gray-600 leading-relaxed text-sm md:text-base">
           {step.description}
         </p>
-        <Button className="bg-primary-900 hover:bg-primary-700 text-white px-6 py-2 rounded-md font-medium">
+        <Button
+          className="bg-primary-900 hover:bg-primary-700 text-white px-6 py-2 rounded-md font-medium"
+          onClick={() => handleLearnMoreClick(step.id)}
+        >
           Learn More
         </Button>
       </div>

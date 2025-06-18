@@ -1,8 +1,14 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { Rocket, Star } from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export default function HomeHeroSection() {
+  const navigate = useRouter();
+  const handleGetStartClick = () => {
+    navigate.push("/contact-us");
+  };
   return (
     <section className="pt-10 lg:pt-24  bg-white">
       <div className="container mx-auto px-4 max-w-7xl">
@@ -28,7 +34,7 @@ export default function HomeHeroSection() {
               <Button
                 size="lg"
                 className="bg-primary-900 hover:bg-primary-900/90 text-white"
-                // onClick={}
+                onClick={handleGetStartClick}
               >
                 Get Started
               </Button>

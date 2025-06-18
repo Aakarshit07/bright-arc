@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { ChevronRight } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 interface ServiceCardProps {
   title: string;
@@ -15,6 +16,11 @@ export const ServiceCard = ({
   highlight,
   className,
 }: ServiceCardProps) => {
+  const navigate = useRouter();
+  const hanleServiceClick = () => {
+    navigate.push("contact-us");
+  };
+
   return (
     <div
       className={cn(
@@ -29,7 +35,11 @@ export const ServiceCard = ({
       <p className={cn("text-sm", highlight && "text-white/90")}>
         {description}
       </p>
-      <div className="bg-secondary-500 w-9 h-9 flex items-center justify-center rounded-full text-center text-white">
+      <div
+        className=" cursor-pointer bg-secondary-500 w-9 h-9 flex items-center justify-center rounded-full text-center text-white"
+        role="button"
+        onClick={hanleServiceClick}
+      >
         <ChevronRight width={24} height={24} />
       </div>
     </div>

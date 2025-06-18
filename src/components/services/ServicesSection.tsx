@@ -1,8 +1,23 @@
 "use client";
 
+import { useState } from "react";
 import { ServiceCard } from "./ServiceCard";
-
+const services = [
+  {
+    title: "Mentorship",
+    description: "There are many variations of passages of Lorem Ipsum.",
+  },
+  {
+    title: "Thought Leadership",
+    description: "There are many variations of passages of Lorem Ipsum.",
+  },
+  {
+    title: "Consulting",
+    description: "There are many variations of passages of Lorem Ipsum.",
+  },
+];
 export const ServicesSection = () => {
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   return (
     <section className="relative py-16 px-4">
       {/* 1. Text Container */}
@@ -31,20 +46,22 @@ export const ServicesSection = () => {
       {/* 3. Cards Section (Overlapping) */}
       <div className="relative -mt-60 lg:-mt-12 px-4">
         <div className="flex flex-col items-center lg:flex-row lg:justify-center">
-          <ServiceCard
-            title="Mentorship"
-            description="There are many variations of passages of Lorem Ipsum."
-            highlight
-            className=""
-          />
-          <ServiceCard
-            title="Thought Leadership"
-            description="There are many variations of passages of Lorem Ipsum."
-          />
-          <ServiceCard
-            title="Consulting"
-            description="There are many variations of passages of Lorem Ipsum."
-          />
+          {services.map((service, index) => (
+            <div
+              key={index}
+              onMouseEnter={() => setHoveredIndex(index)}
+              onMouseLeave={() => setHoveredIndex(null)}
+            >
+              <ServiceCard
+                title={service.title}
+                description={service.description}
+                highlight={
+                  hoveredIndex === index ||
+                  (hoveredIndex === null && index === 0)
+                }
+              />
+            </div>
+          ))}
         </div>
       </div>
     </section>

@@ -204,17 +204,6 @@ export function ContactForm({ className }: ContactFormProps) {
                         </div>
                       </div>
                       <div className="flex items-center gap-4">
-                        <Fax className="w-6 h-6 text-gray-600" />
-                        <div className="flex flex-col">
-                          <span className="text-xs text-gray-600 uppercase tracking-wide">
-                            FAX
-                          </span>
-                          <span className="text-xs text-accent-600">
-                            03 5432 1234
-                          </span>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-4">
                         <Mail className="w-6 h-6 text-gray-900" />
                         <div className="flex flex-col">
                           <span className="text-xs text-gray-600 uppercase tracking-wide">

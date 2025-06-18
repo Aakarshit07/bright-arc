@@ -115,7 +115,7 @@ export default function Header() {
                   <ul className="grid w-[400px] gap-3 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
                     <li className="row-span-3">
                       <NavigationMenuLink asChild>
-                        <a
+                        <Link
                           className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
                           href="/blogs"
                         >
@@ -125,7 +125,7 @@ export default function Header() {
                           <p className="text-sm leading-tight text-muted-foreground">
                             Stay updated with the latest trends and insights.
                           </p>
-                        </a>
+                        </Link>
                       </NavigationMenuLink>
                     </li>
                     <ListItem href="/blogs/blog-1" title="Blog 1">
@@ -163,12 +163,12 @@ export default function Header() {
         <div className="lg:hidden">
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="lg:hidden">
-                <Menu className="h-6 w-6" />
-                <span className="sr-only">Open menu</span>
-              </Button>
+              <div role="button" className="lg:hidden">
+                <Menu className="h-7 w-7" />
+                <span className="sr-only">Open Menu</span>
+              </div>
             </SheetTrigger>
-            <SheetContent side="right" className="w-full sm:max-w-sm">
+            <SheetContent side="left" className="w-full sm:max-w-sm">
               <SheetHeader className="pb-4 mb-4">
                 <SheetTitle className="flex items-center">
                   <Image

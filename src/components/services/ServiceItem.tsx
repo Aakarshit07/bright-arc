@@ -19,7 +19,7 @@ export const ServiceItem = ({
   type,
 }: ServiceItemProps) => {
   const navigate = useRouter();
-  const handleClick = () => navigate.push("contact-us");
+  const handleClick = () => navigate.push("/contact-us");
   return (
     <div
       className={cn(
