@@ -8,18 +8,21 @@ const services = [
     description:
       "Lorem ipsum gypsum es simplemente el texto de relleno de las imprentas y archivos de texto.",
     imageUrl: "/office_image.jpg",
+    type: "mentorship",
   },
   {
     title: "Thought Leadership – Industry Insights & Academic Writing",
     description:
       "Lorem ipsum gypsum es simplemente el texto de relleno de las imprentas y archivos de texto.",
     imageUrl: "/office_image.jpg",
+    type: "leadership",
   },
   {
     title: "Consulting – Content Strategy & Marketing",
     description:
       "Lorem ipsum gypsum es simplemente el texto de relleno de las imprentas y archivos de texto.",
     imageUrl: "/office_image.jpg",
+    type: "consulting",
   },
 ];
 
@@ -34,6 +37,7 @@ export default function OurServices() {
             description={service.description}
             imageUrl={service.imageUrl}
             reverse={index % 2 === 1}
+            type={service.type}
           />
         ))}
       </div>

@@ -8,6 +8,7 @@ interface ServiceItemProps {
   description: string;
   imageUrl: string;
   reverse?: boolean;
+  type: string;
 }
 
 export const ServiceItem = ({
@@ -15,6 +16,7 @@ export const ServiceItem = ({
   description,
   imageUrl,
   reverse = false,
+  type,
 }: ServiceItemProps) => {
   const navigate = useRouter();
   const handleClick = () => navigate.push("contact-us");
@@ -24,6 +26,7 @@ export const ServiceItem = ({
         "flex flex-col lg:flex-row justify-between gap-8 rounded-lg",
         reverse && "lg:flex-row-reverse"
       )}
+      id={type}
     >
       <div className="relative w-full h-52 lg:w-[45%] lg:h-64 rounded-lg overflow-hidden shadow-md">
         <Image

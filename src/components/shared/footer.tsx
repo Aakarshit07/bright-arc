@@ -7,18 +7,18 @@ import bright_logo from "../../../public/logo_sub.png";
 
 const footerSections = {
   services: [
-    { name: "UI/UX Design", href: "#" },
-    { name: "Web Development", href: "#" },
-    { name: "CMS Support", href: "#" },
-    { name: "On-Page SEO", href: "#" },
+    { name: "Mentorship", href: "/our-services#mentorship" },
+    { name: "Leadership", href: "/our-services#leadership" },
+    { name: "Consulting", href: "/our-services#consulting" },
   ],
 
-  jumpTo: [
-    { name: "Header", href: "#header" },
-    { name: "Portfolio", href: "#portfolio" },
-    { name: "Services", href: "our-services" },
-    { name: "Testimonials", href: "success-stories" },
-    { name: "Contact us", href: "contact-us" },
+  pages: [
+    { name: "Home", href: "/" },
+    { name: "About Us", href: "/about-us" },
+    { name: "Services", href: "/our-services" },
+    { name: "Blogs", href: "/blogs" },
+    { name: "Success Stories", href: "/success-stories" },
+    { name: "Contact us", href: "/contact-us" },
   ],
 };
 
@@ -78,12 +78,12 @@ export function Footer() {
                 <ul className="space-y-2">
                   {footerSections.services.map((item) => (
                     <li key={item.name}>
-                      <a
+                      <Link
                         href={item.href}
                         className="text-white/80 hover:text-white transition-colors text-sm"
                       >
                         {item.name}
-                      </a>
+                      </Link>
                     </li>
                   ))}
                 </ul>
@@ -91,16 +91,16 @@ export function Footer() {
 
               {/* Jump To */}
               <div className="space-y-4">
-                <h3 className="text-lg font-semibold text-white">Jump to</h3>
+                <h3 className="text-lg font-semibold text-white">Pages</h3>
                 <ul className="space-y-2">
-                  {footerSections.jumpTo.map((item) => (
+                  {footerSections.pages.map((item) => (
                     <li key={item.name}>
-                      <a
+                      <Link
                         href={item.href}
                         className="text-white/80 hover:text-white transition-colors text-sm"
                       >
                         {item.name}
-                      </a>
+                      </Link>
                     </li>
                   ))}
                 </ul>
@@ -204,12 +204,12 @@ export function Footer() {
             <div className="border-b border-white/10">
               <button
                 className="flex items-center justify-between w-full py-3"
-                onClick={() => toggleSection("jumpTo")}
+                onClick={() => toggleSection("pages")}
               >
-                <span className="font-medium">Jump to</span>
+                <span className="font-medium">Pages</span>
                 <svg
                   className={`w-5 h-5 transition-transform ${
-                    openSection === "jumpTo" ? "rotate-180" : ""
+                    openSection === "pages" ? "rotate-180" : ""
                   }`}
                   fill="none"
                   stroke="currentColor"
@@ -223,10 +223,10 @@ export function Footer() {
                   />
                 </svg>
               </button>
-              {openSection === "jumpTo" && (
+              {openSection === "pages" && (
                 <div className="pb-3">
                   <ul className="space-y-2">
-                    {footerSections.jumpTo.map((item) => (
+                    {footerSections.pages.map((item) => (
                       <li key={item.name}>
                         <Link
                           href={item.href}
