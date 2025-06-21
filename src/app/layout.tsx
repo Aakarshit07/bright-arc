@@ -26,7 +26,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${poppins.variable} font-poppins`}>
         {children}
-        <Toaster />
+        <Toaster position="top-right" richColors closeButton duration={4000} />
       </body>
     </html>
   );

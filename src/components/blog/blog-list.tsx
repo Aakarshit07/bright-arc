@@ -1,5 +1,5 @@
+import { IBlog } from "@/types/blog.types";
 import BlogCard from "./blog-card";
-import type { IBlog } from "@/types/shared.types";
 
 interface BlogGridProps {
   blogs: IBlog[];
@@ -13,14 +13,14 @@ export function BlogList({ blogs, className = "" }: BlogGridProps) {
     >
       {blogs.map((blog) => (
         <BlogCard
-          key={blog.id}
+          key={blog._id}
           title={blog.title}
-          description={blog.description}
+          description={blog.content}
           author={blog.author}
-          date={blog.date}
-          mentorship={blog.featured}
+          date={blog.postDate}
+          // mentorship={blog.featured}
           variant="vertical"
-          imageUrl={blog.imageUrl}
+          imageUrl={blog.image}
           className="w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] xl:w-[350px] flex-shrink-0"
         />
       ))}

@@ -11,7 +11,7 @@ interface IBlogCardProps {
   title: string;
   description: string;
   author: string;
-  date: string;
+  date: string | Date;
   mentorship?: boolean;
   variant?: "vertical" | "horizontal";
   imageUrl?: string;
@@ -58,7 +58,11 @@ const BlogCard: React.FC<IBlogCardProps> = ({
           )}
         >
           <Image
-            src={imageUrl || "/placeholder.svg"}
+            src={
+              imageUrl === "https://example.com/image.png"
+                ? "/placeholder.svg"
+                : imageUrl
+            }
             alt={title}
             fill
             priority
@@ -97,7 +101,9 @@ const BlogCard: React.FC<IBlogCardProps> = ({
                 )}
               >
                 <Calendar className="w-4 h-4" />
-                <span>{date}</span>
+                <span>
+                  {date.toLocaleString("en-IN", { dateStyle: "medium" })}
+                </span>
               </div>
               <div
                 className={cn(

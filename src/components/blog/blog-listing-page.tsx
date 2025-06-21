@@ -1,35 +1,89 @@
 "use client";
 
-import { useBlogFilter } from "@/hooks/useBlogFilter";
+import { useEffect, useState } from "react";
+import { useBlogStore } from "@/stores/blog-store";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
-import { useState } from "react";
-import { blogCategories, blogData } from "../../lib/blogData";
 import { BlogCategoryTabs } from "@/components/blog/blog-category-tabs";
 import { BlogList } from "@/components/blog/blog-list";
 import BlogHeroSection from "@/components/blog/blog-hero-section";
+import type { IBlog, ICategory, ICategoryWithCount } from "@/types/blog.types";
+import { showError, showSuccess } from "@/lib/toast-utils";
 
-export default function BlogListingPage() {
-  const [isLoading, setIsLoading] = useState(false);
+interface BlogListingPageProps {
+  initialBlogs: IBlog[];
+  initialCategories: ICategory[];
+}
+
+export default function BlogListingPage({
+  initialBlogs,
+  initialCategories,
+}: BlogListingPageProps) {
   const {
+    blogs,
+    categories,
     activeCategory,
-    displayedBlogs,
+    isLoading,
     hasMore,
-    loadMore,
-    changeCategory,
-    totalCount,
-  } = useBlogFilter({
-    blogs: blogData,
-    initialCategory: "all",
-    blogsPerPage: 12,
-  });
+    setBlogs,
+    setCategories,
+    fetchBlogs,
+    fetchBlogsByCategory,
+  } = useBlogStore();
+
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+
+  // Initialize store with SSR data
+  useEffect(() => {
+    if (initialBlogs.length > 0) {
+      setBlogs(initialBlogs);
+    }
+    if (initialCategories.length > 0) {
+      setCategories(initialCategories);
+    }
+  }, [initialBlogs, initialCategories, setBlogs, setCategories]);
+
+  // Create categories with counts for tabs
+  const categoriesWithCount: ICategoryWithCount[] = [
+    {
+      _id: "all",
+      categoryName: "all",
+      activeStatus: "active" as const,
+      urlKey: "all",
+      blogCount: initialBlogs.length,
+    },
+    ...categories.map((category) => ({
+      ...category,
+      blogCount: blogs.filter((blog) => blog.category._id === category._id)
+        .length,
+    })),
+  ];
+
+  const handleCategoryChange = async (category: string) => {
+    if (category === activeCategory) return;
+
+    try {
+      if (category === "all") {
+        await fetchBlogs("all", true);
+      } else {
+        await fetchBlogsByCategory(category);
+      }
+    } catch (error) {
+      showError(error, "Category Change");
+    }
+  };
 
   const handleLoadMore = async () => {
-    setIsLoading(true);
-    // Simulate API call delay
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    loadMore();
-    setIsLoading(false);
+    if (isLoading || !hasMore) return;
+
+    setIsLoadingMore(true);
+    try {
+      await fetchBlogs(activeCategory, false);
+    } catch (error) {
+      showError(error, "Load More");
+    } finally {
+      setIsLoadingMore(false);
+    }
   };
 
   return (
@@ -46,26 +100,34 @@ export default function BlogListingPage() {
         {/* Category Tabs */}
         <div className="mb-8">
           <BlogCategoryTabs
-            categories={blogCategories}
+            categories={categoriesWithCount}
             activeCategory={activeCategory}
-            onCategoryChange={changeCategory}
+            onCategoryChange={handleCategoryChange}
+            isLoading={isLoading}
           />
         </div>
 
         {/* Blog List */}
-        <BlogList blogs={displayedBlogs} />
+        {isLoading && blogs.length === 0 ? (
+          <div className="flex justify-center items-center py-12">
+            <Loader2 className="h-8 w-8 animate-spin" />
+            <span className="ml-2">Loading blogs...</span>
+          </div>
+        ) : (
+          <BlogList blogs={blogs} />
+        )}
 
         {/* Load More Button */}
-        {hasMore && (
-          <div className="text-center">
+        {hasMore && blogs.length > 0 && (
+          <div className="text-center mt-8">
             <Button
               onClick={handleLoadMore}
-              disabled={isLoading}
+              disabled={isLoadingMore}
               variant="outline"
               size="lg"
               className="min-w-32"
             >
-              {isLoading ? (
+              {isLoadingMore ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   Loading...
@@ -78,8 +140,8 @@ export default function BlogListingPage() {
         )}
 
         {/* No More Results */}
-        {!hasMore && displayedBlogs.length > 0 && (
-          <div className="text-center">
+        {!hasMore && blogs.length > 0 && (
+          <div className="text-center mt-8">
             <p className="text-primary-300 text-sm">
               You've reached the end of the articles.
             </p>
@@ -87,7 +149,7 @@ export default function BlogListingPage() {
         )}
 
         {/* No Results */}
-        {displayedBlogs.length === 0 && (
+        {blogs.length === 0 && !isLoading && (
           <div className="text-center py-12">
             <p className="text-primary-300 text-sm">
               No articles found in this category.
