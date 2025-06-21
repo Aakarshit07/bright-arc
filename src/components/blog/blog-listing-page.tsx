@@ -1,6 +1,6 @@
 "use client";
 
-import { useBlogFilter } from "@/components/hooks/useBlogFilter";
+import { useBlogFilter } from "@/hooks/useBlogFilter";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";

@@ -1,5 +1,5 @@
 "use client";
-import { useSteps } from "@/components/hooks/useSteps";
+import { useSteps } from "@/hooks/useSteps";
 import { DEFAULT_AUTO_ADVANCE_INTERVAL, DEFAULT_STEPS } from "@/lib/steps-data";
 import { IStepsProps } from "@/types/shared.types";
 import { StepsHeaderSection } from "./steps-header";
