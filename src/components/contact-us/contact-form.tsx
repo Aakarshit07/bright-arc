@@ -12,9 +12,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Phone, VoicemailIcon as Fax, Mail } from "lucide-react";
+import { Phone, Mail, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import dynamic from "next/dynamic";
+import { contactApi } from "@/lib/contact-api";
+import { showError, showSuccess } from "@/lib/toast-utils";
 
 const MapLeaflet = dynamic(() => import("@/components/shared/MapLeaflet"), {
   ssr: false,
@@ -33,10 +35,79 @@ export function ContactForm({ className }: ContactFormProps) {
     message: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    // Handle form submission here
+
+    // Basic validation
+    if (!formData.name.trim()) {
+      showError("Name is required", "Validation Error");
+      return;
+    }
+
+    if (!formData.phone.trim()) {
+      showError("Phone number is required", "Validation Error");
+      return;
+    }
+
+    if (!formData.email.trim()) {
+      showError("Email is required", "Validation Error");
+      return;
+    }
+
+    if (!formData.source) {
+      showError("Please select how you found us", "Validation Error");
+      return;
+    }
+
+    if (!formData.message.trim()) {
+      showError("Message is required", "Validation Error");
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      // Map form data to match backend API expectations
+      const apiData = {
+        name: formData.name.trim(),
+        email: formData.email.trim(),
+        mobile: formData.phone.trim(), // Backend expects 'mobile' not 'phone'
+        source: formData.source,
+        message: formData.message.trim(),
+      };
+
+      const response = await contactApi.submitContactForm(apiData);
+
+      if (response.success) {
+        showSuccess(
+          "Thank you! We'll get back to you within 24-48 hours.",
+          "Message Sent Successfully"
+        );
+        // Reset form
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          source: "",
+          message: "",
+        });
+      } else {
+        showError(
+          response.error || "Failed to send message. Please try again.",
+          "Submission Failed"
+        );
+      }
+    } catch (error) {
+      showError(
+        "Network error. Please check your connection and try again.",
+        "Connection Error"
+      );
+      console.error("Contact form submission error:", error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleInputChange = (field: string, value: string) => {
@@ -112,6 +183,7 @@ export function ContactForm({ className }: ContactFormProps) {
                           }
                           required
                           className="w-full"
+                          disabled={isSubmitting}
                         />
                       </div>
 
@@ -119,12 +191,14 @@ export function ContactForm({ className }: ContactFormProps) {
                       <div>
                         <Input
                           type="email"
-                          placeholder="Email"
+                          placeholder="Email *"
                           value={formData.email}
                           onChange={(e) =>
                             handleInputChange("email", e.target.value)
                           }
+                          required
                           className="w-full"
+                          disabled={isSubmitting}
                         />
                       </div>
 
@@ -139,6 +213,7 @@ export function ContactForm({ className }: ContactFormProps) {
                           }
                           required
                           className="w-full"
+                          disabled={isSubmitting}
                         />
                       </div>
 
@@ -148,10 +223,12 @@ export function ContactForm({ className }: ContactFormProps) {
                           onValueChange={(value) =>
                             handleInputChange("source", value)
                           }
+                          disabled={isSubmitting}
+                          value={formData.source}
                         >
                           <SelectTrigger className="w-full">
                             <SelectValue
-                              placeholder="How did you find us?"
+                              placeholder="How did you find us? *"
                               className="text-gray-400"
                             />
                           </SelectTrigger>
@@ -159,8 +236,12 @@ export function ContactForm({ className }: ContactFormProps) {
                             <SelectItem value="google">
                               Google Search
                             </SelectItem>
-                            <SelectItem value="social">Social Media</SelectItem>
+                            <SelectItem value="social-media">
+                              Social Media
+                            </SelectItem>
                             <SelectItem value="referral">Referral</SelectItem>
+                            <SelectItem value="linkedin">LinkedIn</SelectItem>
+                            <SelectItem value="website">Website</SelectItem>
                             <SelectItem value="advertisement">
                               Advertisement
                             </SelectItem>
@@ -172,21 +253,31 @@ export function ContactForm({ className }: ContactFormProps) {
                       {/* Message Field */}
                       <div>
                         <Textarea
-                          placeholder="Your Message"
+                          placeholder="Your Message *"
                           value={formData.message}
                           onChange={(e) =>
                             handleInputChange("message", e.target.value)
                           }
                           className="w-full resize-none"
+                          required
+                          disabled={isSubmitting}
                         />
                       </div>
 
                       {/* Submit Button */}
                       <Button
                         type="submit"
-                        className="w-full bg-primary-800 hover:bg-primary-900 text-white py-3 font-semibold tracking-wide text-sm"
+                        disabled={isSubmitting}
+                        className="w-full bg-primary-800 hover:bg-primary-900 text-white py-3 font-semibold tracking-wide text-sm disabled:opacity-50"
                       >
-                        SEND
+                        {isSubmitting ? (
+                          <>
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                            SENDING...
+                          </>
+                        ) : (
+                          "SEND"
+                        )}
                       </Button>
                     </form>
 
@@ -210,7 +301,7 @@ export function ContactForm({ className }: ContactFormProps) {
                             EMAIL
                           </span>
                           <span className="text-xs text-accent-600">
-                            info@morcc.com.au
+                            info@brightarc.in
                           </span>
                         </div>
                       </div>
