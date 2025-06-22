@@ -2,6 +2,7 @@
 
 import type React from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
@@ -16,6 +17,7 @@ interface IBlogCardProps {
   variant?: "vertical" | "horizontal";
   imageUrl?: string;
   className?: string;
+  slug: string;
 }
 
 const BlogCard: React.FC<IBlogCardProps> = ({
@@ -27,18 +29,27 @@ const BlogCard: React.FC<IBlogCardProps> = ({
   variant = "vertical",
   imageUrl = "/placeholder.svg?height=250&width=350&text=Blog+Image",
   className,
+  slug,
 }) => {
+  const router = useRouter();
   const isHorizontal = variant === "horizontal";
+
+  const handleCardClick = () => {
+    router.push(`/blogs/${slug}`);
+  };
 
   return (
     <Card
       className={cn(
-        "group relative overflow-hidden bg-transparent flex-shrink-0 blog-card border-0 shadow-none",
+        "group relative overflow-hidden bg-transparent flex-shrink-0 blog-card border-0 shadow-none cursor-pointer",
+
         isHorizontal
           ? "flex flex-row gap-6 w-[350px] h-[350px] laptop:w-full laptop:h-fit laptop:max-w-xl rounded-xl"
           : "!w-80 laptop:!w-[350px] h-fit rounded-t-xl rounded-b-none",
+
         className
       )}
+      onClick={handleCardClick}
     >
       <CardContent
         className={cn(
@@ -102,7 +113,11 @@ const BlogCard: React.FC<IBlogCardProps> = ({
               >
                 <Calendar className="w-4 h-4" />
                 <span>
-                  {date.toLocaleString("en-IN", { dateStyle: "medium" })}
+                  {new Date(date).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "short",
+                    day: "numeric",
+                  })}
                 </span>
               </div>
               <div

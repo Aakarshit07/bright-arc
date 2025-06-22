@@ -22,6 +22,7 @@ export function BlogList({ blogs, className = "" }: BlogGridProps) {
           variant="vertical"
           imageUrl={blog.image}
           className="w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] xl:w-[350px] flex-shrink-0"
+          slug={blog.slug}
         />
       ))}
     </div>

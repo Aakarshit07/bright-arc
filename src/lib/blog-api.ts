@@ -49,7 +49,7 @@ class BlogApiService {
   }
 
   // Blog APIs
-  async getAllBlogs(filters?: BlogFilters): Promise<ApiResponse<IBlog[]>> {
+  async getAllBlogs(): Promise<ApiResponse<IBlog[]>> {
     // const queryParams = new URLSearchParams();
     // if (filters?.page) queryParams.append("page", filters.page.toString());
     // if (filters?.limit) queryParams.append("limit", filters.limit.toString());
@@ -61,7 +61,8 @@ class BlogApiService {
   }
 
   async getBlogBySlug(slug: string): Promise<ApiResponse<IBlog>> {
-    return this.fetchApi<IBlog>(`/blogs/${slug}`);
+    const endpoint = `/blogs/:porche-911`;
+    return this.fetchApi<IBlog>(endpoint);
   }
 
   async getBlogsByCategory(

@@ -79,10 +79,7 @@ export const useBlogStore = create<BlogState>()(
           let response;
 
           if (category === "all") {
-            response = await blogApi.getAllBlogs({
-              page: reset ? 1 : state.currentPage,
-              limit: 12,
-            });
+            response = await blogApi.getAllBlogs();
           } else {
             response = await blogApi.getBlogsByCategory(category);
           }
@@ -100,7 +97,6 @@ export const useBlogStore = create<BlogState>()(
             showError(response, "Loading Blogs");
           }
         } catch (error) {
-          console.log("Error  in store fetching blogs:", error);
           showError(error, "Loading Blogs");
         } finally {
           set({ isLoading: false });

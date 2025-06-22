@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -13,10 +13,9 @@ import {
   Check,
   User,
   Calendar,
-  Hash,
+  Loader2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { sampleBlogContent } from "@/lib/blogData";
 import Link from "next/link";
 
 interface BlogSidebarInfoProps {
@@ -29,42 +28,24 @@ interface BlogSidebarInfoProps {
   isLiked: boolean;
   onLike: () => void;
   onOpenComments: () => void;
+  commentCount: number;
+  isLoading?: boolean;
   className?: string;
 }
 
 export function BlogSidebarInfo({
   author,
   date,
+  category,
   likeCount,
   isLiked,
   onLike,
   onOpenComments,
+  commentCount,
+  isLoading = false,
   className = "",
 }: BlogSidebarInfoProps) {
   const [copied, setCopied] = useState(false);
-  const [activeSection, setActiveSection] = useState<string>("");
-
-  // Track scroll position to highlight active section
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY + 100;
-
-      for (let i = sampleBlogContent.sections.length - 1; i >= 0; i--) {
-        const section = document.getElementById(
-          sampleBlogContent.sections[i].id
-        );
-        if (section && section.offsetTop <= scrollPosition) {
-          setActiveSection(sampleBlogContent.sections[i].id);
-          break;
-        }
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    handleScroll();
-
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   const handleShare = async () => {
     try {
@@ -78,31 +59,6 @@ export function BlogSidebarInfo({
 
   return (
     <div className={cn("space-y-4", className)}>
-      {/* Content Navigation */}
-      <div>
-        <div className="flex items-center space-x-2">
-          <h3 className="text-base font-semibold text-gray-900">Content</h3>
-        </div>
-        <nav className="space-y-1">
-          {sampleBlogContent.sections.map((section) => (
-            <Link
-              key={section.id}
-              href={`#${section.id}`}
-              className={cn(
-                "block text-xs rounded p-1 font-medium transition-colors",
-                activeSection === section.id
-                  ? "text-primary-700"
-                  : "text-gray-700 hover:text-primary-600 hover:bg-primary-50"
-              )}
-            >
-              {section.title}
-            </Link>
-          ))}
-        </nav>
-      </div>
-
-      <Separator className="my-1 bg-gray-400" />
-
       {/* Share Article */}
       <div>
         <h3 className="text-base font-semibold text-gray-900 mb-2">
@@ -112,12 +68,24 @@ export function BlogSidebarInfo({
           <Button
             size="icon"
             className="h-8 w-8 rounded-full bg-linear-to-r from-secondary-500 to-accent-600 text-white"
+            onClick={() =>
+              window.open(
+                `https://twitter.com/intent/tweet?url=${window.location.href}`,
+                "_blank"
+              )
+            }
           >
             <Twitter className="h-4 w-4" />
           </Button>
           <Button
             size="icon"
             className="h-8 w-8 rounded-full bg-linear-to-r from-secondary-500 to-accent-600 text-white"
+            onClick={() =>
+              window.open(
+                `https://www.facebook.com/sharer/sharer.php?u=${window.location.href}`,
+                "_blank"
+              )
+            }
           >
             <Facebook className="h-4 w-4" />
           </Button>
@@ -129,7 +97,7 @@ export function BlogSidebarInfo({
           </Button>
           <Button
             size="icon"
-            className="h-8 w-8 rounded-full bg-orange-500 hover:bg-orange-600 text-white"
+            className="h-8 w-8 rounded-full bg-linear-to-r from-secondary-500 to-accent-600 text-white"
             onClick={handleShare}
           >
             {copied ? (
@@ -149,25 +117,32 @@ export function BlogSidebarInfo({
           Reactions
         </h3>
         <div className="flex space-x-4">
-          <button
+          <Button
+            size="icon"
             onClick={onLike}
-            className="flex items-center space-x-1 text-gray-600 hover:text-gray-800 transition-colors"
+            disabled={isLoading}
+            className="flex items-center space-x-1 text-gray-600 hover:text-gray-800 transition-colors disabled:opacity-50"
           >
-            <Heart
-              className={cn(
-                "h-4 w-4",
-                isLiked ? "fill-current text-red-500" : "stroke-current"
-              )}
-            />
+            {isLoading ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              <Heart
+                className={cn(
+                  "h-4 w-4",
+                  isLiked ? "fill-current text-red-500" : "stroke-current"
+                )}
+              />
+            )}
             <span className="text-sm">{likeCount}</span>
-          </button>
-          <button
+          </Button>
+          <Button
+            size="icon"
             onClick={onOpenComments}
             className="flex items-center space-x-1 text-gray-600 hover:text-gray-800 transition-colors"
           >
             <MessageSquare className="h-4 w-4 stroke-current" />
-            <span className="text-sm">210</span>
-          </button>
+            <span className="text-sm">{commentCount}</span>
+          </Button>
         </div>
       </div>
 
@@ -185,6 +160,21 @@ export function BlogSidebarInfo({
             <Calendar className="h-3 w-3" />
             <span>{date}</span>
           </div>
+        </div>
+      </div>
+
+      <Separator className="my-1 bg-gray-400" />
+
+      {/* Category */}
+      <div>
+        <h3 className="text-base font-semibold text-gray-900 mb-1">Category</h3>
+        <div className="text-sm text-gray-600">
+          <Link
+            href={`/blogs?category=${category}`}
+            className="hover:text-primary-600 transition-colors"
+          >
+            {category.charAt(0).toUpperCase() + category.slice(1)}
+          </Link>
         </div>
       </div>
     </div>

@@ -1,6 +1,6 @@
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import BlogCard from "../blog-card";
-import type { IBlog } from "@/types/shared.types";
+import { IBlog } from "@/types/blog.types";
 
 interface SimilarBlogsProps {
   blogs: IBlog[];
@@ -14,7 +14,7 @@ export function SimilarBlogs({
   className = "",
 }: SimilarBlogsProps) {
   const similarBlogs = blogs
-    .filter((blog) => blog.id !== currentBlogId)
+    .filter((blog) => blog._id !== currentBlogId)
     .slice(0, 6);
 
   if (similarBlogs.length === 0) return null;
@@ -29,15 +29,15 @@ export function SimilarBlogs({
         <ScrollArea className="w-full whitespace-nowrap">
           <div className="flex space-x-6 pb-4">
             {similarBlogs.map((blog) => (
-              <div key={blog.id} className="w-[350px] flex-shrink-0">
+              <div key={blog._id} className="w-[350px] flex-shrink-0">
                 <BlogCard
                   title={blog.title}
-                  description={blog.description}
+                  description={blog.content}
                   author={blog.author}
-                  date={blog.date}
-                  mentorship={blog.featured}
+                  date={blog.postDate}
+                  // mentorship={blog.featured}
                   variant="vertical"
-                  imageUrl={blog.imageUrl}
+                  imageUrl={blog.image}
                   className="w-full"
                 />
               </div>
