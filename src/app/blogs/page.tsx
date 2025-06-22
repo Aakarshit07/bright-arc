@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { DefaultLayout } from "@/components/layout/default-layout";
 import BlogListingPage from "@/components/blog/blog-listing-page";
-import { blogApi } from "@/lib/blog-api";
+import { blogApi } from "@/lib/api/blog-api";
 import type { IBlog, ICategory } from "@/types/blog.types";
 import { BlogListingSkeleton } from "@/components/blog/blog-listing-skeleton";
 

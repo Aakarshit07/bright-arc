@@ -1,4 +1,4 @@
-import { blogApi } from "@/lib/blog-api";
+import { blogApi } from "@/lib/api/blog-api";
 import type { IBlog, ICategory, ICategoryWithCount } from "@/types/blog.types";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";

@@ -9,7 +9,7 @@ import { BlogSidebarInfo } from "./blog-navigation";
 import { BlogContent } from "./blog-content";
 import { SimilarBlogs } from "./similar-blogs";
 import { CommentSheet } from "./comment-sheet";
-import { blogApi } from "@/lib/blog-api";
+import { blogApi } from "@/lib/api/blog-api";
 import { showError, showSuccess } from "@/lib/toast-utils";
 
 interface BlogLayoutProps {

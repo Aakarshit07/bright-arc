@@ -15,7 +15,7 @@ import {
 import { Phone, Mail, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import dynamic from "next/dynamic";
-import { contactApi } from "@/lib/contact-api";
+import { contactApi } from "@/lib/api/contact-api";
 import { showError, showSuccess } from "@/lib/toast-utils";
 
 const MapLeaflet = dynamic(() => import("@/components/shared/MapLeaflet"), {

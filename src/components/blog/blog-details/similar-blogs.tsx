@@ -39,6 +39,7 @@ export function SimilarBlogs({
                   variant="vertical"
                   imageUrl={blog.image}
                   className="w-full"
+                  slug={blog.slug}
                 />
               </div>
             ))}

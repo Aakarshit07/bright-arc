@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { DefaultLayout } from "@/components/layout/default-layout";
 import { BlogLayout } from "@/components/blog/blog-details/blog-layout";
-import { blogApi } from "@/lib/blog-api";
+import { blogApi } from "@/lib/api/blog-api";
 import type { IBlog } from "@/types/blog.types";
 
 interface BlogDetailPageProps {
