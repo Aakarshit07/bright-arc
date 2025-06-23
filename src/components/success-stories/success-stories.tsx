@@ -107,7 +107,7 @@ export function SuccessStoriesPage({ className }: ISuccessStoriesPageProps) {
 
   return (
     <section className={cn("", className)}>
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 mb-8">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Main Content */}
         <div className="flex flex-col sm:flex-row gap-10 sm:gap-16 items-center sm:items-start sm:justify-between">
           {/* Left Side - Static Content */}
@@ -152,7 +152,7 @@ export function SuccessStoriesPage({ className }: ISuccessStoriesPageProps) {
             >
               <CarouselContent className="h-[600px] lg:h-[700px] -mt-4">
                 {testimonials.map((testimonial, index) => (
-                  <CarouselItem key={testimonial.id} className="pt-4 basis-1/2">
+                  <CarouselItem key={testimonial.id} className="pt-4 basis-1/3">
                     <TestimonialCard
                       name={testimonial.name}
                       position={testimonial.position}

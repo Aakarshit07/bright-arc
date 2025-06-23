@@ -67,7 +67,7 @@ export function BlogSidebarInfo({
         <div className="flex space-x-2">
           <Button
             size="icon"
-            className="h-8 w-8 rounded-full bg-linear-to-r from-secondary-500 to-accent-600 text-white"
+            className="h-8 w-8 rounded-full cursor-pointer bg-linear-to-r from-secondary-500 to-accent-600 text-white"
             onClick={() =>
               window.open(
                 `https://twitter.com/intent/tweet?url=${window.location.href}`,
@@ -79,7 +79,7 @@ export function BlogSidebarInfo({
           </Button>
           <Button
             size="icon"
-            className="h-8 w-8 rounded-full bg-linear-to-r from-secondary-500 to-accent-600 text-white"
+            className="h-8 w-8 rounded-full cursor-pointer bg-linear-to-r from-secondary-500 to-accent-600 text-white"
             onClick={() =>
               window.open(
                 `https://www.facebook.com/sharer/sharer.php?u=${window.location.href}`,
@@ -91,13 +91,13 @@ export function BlogSidebarInfo({
           </Button>
           <Button
             size="icon"
-            className="h-8 w-8 rounded-full bg-linear-to-r from-secondary-500 to-accent-600 text-white"
+            className="h-8 w-8 rounded-full cursor-pointer bg-linear-to-r from-secondary-500 to-accent-600 text-white"
           >
             <Instagram className="h-4 w-4" />
           </Button>
           <Button
             size="icon"
-            className="h-8 w-8 rounded-full bg-linear-to-r from-secondary-500 to-accent-600 text-white"
+            className="h-8 w-8 rounded-full cursor-pointer bg-linear-to-r from-secondary-500 to-accent-600 text-white"
             onClick={handleShare}
           >
             {copied ? (
@@ -122,14 +122,14 @@ export function BlogSidebarInfo({
             variant="ghost"
             onClick={onLike}
             disabled={isLoading}
-            className="flex items-center space-x-1 text-gray-600 hover:text-gray-800 transition-colors disabled:opacity-50"
+            className="flex items-center cursor-pointer space-x-1 text-gray-600 hover:text-gray-800 transition-colors disabled:opacity-50"
           >
             {isLoading ? (
               <Loader2 className="h-4 w-4 animate-spin" />
             ) : (
               <Heart
                 className={cn(
-                  "h-4 w-4",
+                  "h-6 w-6",
                   isLiked ? "fill-current text-red-500" : "stroke-current"
                 )}
               />
@@ -140,9 +140,9 @@ export function BlogSidebarInfo({
             size="icon"
             variant="ghost"
             onClick={onOpenComments}
-            className="flex items-center space-x-1 text-gray-600 hover:text-gray-800 transition-colors"
+            className="flex items-center cursor-pointer space-x-1 text-gray-600 hover:text-gray-800 transition-colors"
           >
-            <MessageSquare className="h-4 w-4 stroke-current" />
+            <MessageSquare className="h-6 w-6 stroke-current" />
             <span className="text-sm">{commentCount}</span>
           </Button>
         </div>

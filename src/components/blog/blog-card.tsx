@@ -7,6 +7,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { Calendar, User } from "lucide-react";
+import { stripHtmlTags } from "@/lib/stripHtmlTags";
 
 interface IBlogCardProps {
   title: string;
@@ -91,9 +92,18 @@ const BlogCard: React.FC<IBlogCardProps> = ({
         {/* Blog Content */}
         <div className={cn("flex", isHorizontal ? "w-1/2 lg:w-3/5" : "w-full")}>
           <div className="w-full">
+            <h3
+              className={cn(
+                "text-xl lg:text-2xl font-medium text-gray-950 leading-normal",
+                "group-hover:text-primary transition-colors duration-200 line-clamp-1 text-ellipsis"
+              )}
+            >
+              {title}
+            </h3>
+
             <div
               className={cn(
-                "flex items-center gap-6 text-xs text-gray-500",
+                "flex items-center gap-6 text-xs text-gray-500 my-1",
                 isHorizontal && "flex-col items-start gap-3"
               )}
             >
@@ -123,24 +133,15 @@ const BlogCard: React.FC<IBlogCardProps> = ({
               </div>
             </div>
 
-            <h3
-              className={cn(
-                "text-xl lg:text-2xl font-medium text-gray-950 leading-normal",
-                "group-hover:text-primary transition-colors duration-200 line-clamp-1 text-ellipsis"
-              )}
-            >
-              {title}
-            </h3>
-
             <p
               className={cn(
                 "text-gray-900 text-base leading-relaxed",
                 isHorizontal ? "lg:line-clamp-4" : "line-clamp-3 text-ellipsis"
               )}
             >
-              {description.length > 190
-                ? description.slice(0, 190) + "..."
-                : description}
+              {stripHtmlTags(description).length > 190
+                ? stripHtmlTags(description).slice(0, 190) + "..."
+                : stripHtmlTags(description)}
             </p>
           </div>
         </div>
