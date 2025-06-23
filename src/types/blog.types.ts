@@ -24,7 +24,7 @@ export interface IBlog {
   content: string;
   author: string;
   category: ICategory;
-  postDate: Date;
+  postDate: string;
   likeCount: number;
   commentCount: number;
   comments: IComment[];

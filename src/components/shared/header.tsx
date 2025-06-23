@@ -54,7 +54,7 @@ export default function Header() {
   const [isOpen, setIsOpen] = React.useState(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-white/95">
+    <header className="sticky top-0 z-50 w-full bg-white">
       <div className="flex h-16 items-center justify-between px-8">
         {/* Logo */}
         <Link href="/" className="flex items-center space-x-2">
@@ -85,7 +85,7 @@ export default function Header() {
                   <ul className="grid w-[400px] gap-3 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
                     <li className="row-span-3">
                       <NavigationMenuLink asChild>
-                        <a
+                        <Link
                           className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
                           href="/our-services"
                         >
@@ -93,18 +93,23 @@ export default function Header() {
                             Our Services
                           </div>
                           <p className="text-sm leading-tight text-muted-foreground">
-                            Comprehensive digital solutions tailored to your
-                            business needs.
+                            Comprehensive digital solutions tailored to you
                           </p>
-                        </a>
+                        </Link>
                       </NavigationMenuLink>
                     </li>
-                    <ListItem href="/our-services" title="Service 1">
-                      Description for Service 1
-                    </ListItem>
-                    <ListItem href="/our-services" title="Service 2">
-                      Description for Service 2
-                    </ListItem>
+                    <ListItem
+                      href="/our-services#mentorship"
+                      title="Mentorship"
+                    />
+                    <ListItem
+                      href="/our-services#leadership"
+                      title="Leadership"
+                    />
+                    <ListItem
+                      href="/our-services#consulting"
+                      title="Consulting"
+                    />
                   </ul>
                 </NavigationMenuContent>
               </NavigationMenuItem>
@@ -128,12 +133,9 @@ export default function Header() {
                         </Link>
                       </NavigationMenuLink>
                     </li>
-                    <ListItem href="/blogs/blog-1" title="Blog 1">
-                      Description for Blog 1
-                    </ListItem>
-                    <ListItem href="/blogs/blog-2" title="Blog 2">
-                      Description for Blog 2
-                    </ListItem>
+                    <ListItem href="/blogs">Description for Blog 1</ListItem>
+                    <ListItem href="/blogs">Description for Blog 1</ListItem>
+                    <ListItem href="/blogs">Description for Blog 1</ListItem>
                   </ul>
                 </NavigationMenuContent>
               </NavigationMenuItem>

@@ -119,6 +119,7 @@ export function BlogSidebarInfo({
         <div className="flex space-x-4">
           <Button
             size="icon"
+            variant="ghost"
             onClick={onLike}
             disabled={isLoading}
             className="flex items-center space-x-1 text-gray-600 hover:text-gray-800 transition-colors disabled:opacity-50"
@@ -137,6 +138,7 @@ export function BlogSidebarInfo({
           </Button>
           <Button
             size="icon"
+            variant="ghost"
             onClick={onOpenComments}
             className="flex items-center space-x-1 text-gray-600 hover:text-gray-800 transition-colors"
           >

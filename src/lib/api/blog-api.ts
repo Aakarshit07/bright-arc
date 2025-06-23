@@ -1,12 +1,4 @@
-import type {
-  IBlog,
-  ICategory,
-  BlogFilters,
-  ApiResponse,
-} from "@/types/blog.types";
-
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
+import type { IBlog, ICategory, ApiResponse } from "@/types/blog.types";
 
 class BlogApiService {
   private async fetchApi<T>(
@@ -24,7 +16,7 @@ class BlogApiService {
           ...options,
         }
       );
-
+      console.log("Blog API Response:", response);
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
         throw new Error(
@@ -61,7 +53,7 @@ class BlogApiService {
   }
 
   async getBlogBySlug(slug: string): Promise<ApiResponse<IBlog>> {
-    const endpoint = `/blogs/:porche-911`;
+    const endpoint = `/blogs/${slug}`;
     return this.fetchApi<IBlog>(endpoint);
   }
 

@@ -13,12 +13,9 @@ interface BlogDetailPageProps {
 // Server-side data fetching for individual blog
 async function getBlogData(slug: string): Promise<IBlog | null> {
   try {
-    console.log("Fetching blog with slug:", slug);
     const response = await blogApi.getBlogBySlug(slug);
-    console.log("Blog API response:", response);
     return response.success ? response.data : null;
   } catch (error) {
-    console.error("Error fetching blog:", error);
     return null;
   }
 }
@@ -29,8 +26,6 @@ async function getRelatedBlogs(
   currentBlogId: string
 ): Promise<IBlog[]> {
   try {
-    console.log("Fetching related blogs for category:", categoryUrlKey);
-
     // First try to get blogs by category
     const categoryResponse = await blogApi.getBlogsByCategory(categoryUrlKey);
     if (categoryResponse.success) {
@@ -72,7 +67,6 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
 
   // Get related blogs from the same category
   const relatedBlogs = await getRelatedBlogs(blog.category.urlKey, blog._id);
-  console.log("Related blogs found:", relatedBlogs.length);
 
   return (
     <DefaultLayout>
@@ -100,7 +94,7 @@ export async function generateMetadata({ params }: BlogDetailPageProps) {
       description: blog.content.substring(0, 160) + "...",
       images: blog.image ? [blog.image] : [],
       type: "article",
-      publishedTime: blog.postDate.toISOString(),
+      publishedTime: blog.postDate,
       authors: [blog.author],
     },
   };

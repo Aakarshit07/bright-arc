@@ -126,7 +126,6 @@ export const useBlogStore = create<BlogState>()(
 
         try {
           const response = await blogApi.getBlogBySlug(slug);
-
           if (response.success && response.data) {
             set({ currentBlog: response.data });
             return response.data;
