@@ -133,9 +133,9 @@ export default function Header() {
                         </Link>
                       </NavigationMenuLink>
                     </li>
-                    <ListItem href="/blogs">Description for Blog 1</ListItem>
-                    <ListItem href="/blogs">Description for Blog 1</ListItem>
-                    <ListItem href="/blogs">Description for Blog 1</ListItem>
+                    <ListItem href="/blogs" title="Mentorship" />
+                    <ListItem href="/blogs" title="Consulting" />
+                    <ListItem href="/blogs" title="Thought Leadership" />
                   </ul>
                 </NavigationMenuContent>
               </NavigationMenuItem>

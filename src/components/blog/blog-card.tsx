@@ -44,8 +44,8 @@ const BlogCard: React.FC<IBlogCardProps> = ({
         "group relative overflow-hidden bg-transparent flex-shrink-0 blog-card border-0 shadow-none cursor-pointer",
 
         isHorizontal
-          ? "flex flex-row gap-6 w-[350px] h-[350px] laptop:w-full laptop:h-fit laptop:max-w-xl rounded-xl"
-          : "!w-80 laptop:!w-[350px] h-fit rounded-t-xl rounded-b-none",
+          ? "flex flex-row gap-6 w-full h-[350px] sm:w-full sm:h-fit sm:max-w-xl rounded-xl"
+          : "!w-full sm:!w-[350px] h-fit rounded-t-xl rounded-b-none",
 
         className
       )}
@@ -54,7 +54,7 @@ const BlogCard: React.FC<IBlogCardProps> = ({
       <CardContent
         className={cn(
           "w-full flex gap-6 p-0",
-          isHorizontal ? "flex-row" : "flex-col !w-80 laptop:!w-[350px]"
+          isHorizontal ? "flex-row" : "flex-col !w-full sm:!w-[350px]"
         )}
       >
         {/* Blog Image */}
@@ -64,7 +64,7 @@ const BlogCard: React.FC<IBlogCardProps> = ({
             "border border-transparent transition-colors group-hover:border-primary",
             "box-border",
             isHorizontal
-              ? "w-1/2 h-[350px] laptop:w-60 laptop:h-44"
+              ? "w-1/2 h-[350px] lg:w-60 lg:h-44"
               : "w-full h-[250px]"
           )}
         >
@@ -76,12 +76,6 @@ const BlogCard: React.FC<IBlogCardProps> = ({
             }
             alt={title}
             fill
-            priority
-            sizes={
-              isHorizontal
-                ? "(max-width: 768px) 200px, 220px"
-                : "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            }
             className="object-cover rounded-xl"
           />
           {mentorship && (
@@ -95,9 +89,7 @@ const BlogCard: React.FC<IBlogCardProps> = ({
         </div>
 
         {/* Blog Content */}
-        <div
-          className={cn("flex", isHorizontal ? "w-1/2 laptop:w-3/5" : "w-full")}
-        >
+        <div className={cn("flex", isHorizontal ? "w-1/2 lg:w-3/5" : "w-full")}>
           <div className="w-full">
             <div
               className={cn(
@@ -133,7 +125,7 @@ const BlogCard: React.FC<IBlogCardProps> = ({
 
             <h3
               className={cn(
-                "text-xl laptop:text-2xl font-medium mb-4 mt-2 text-gray-950 leading-normal",
+                "text-xl lg:text-2xl font-medium text-gray-950 leading-normal",
                 "group-hover:text-primary transition-colors duration-200 line-clamp-1 text-ellipsis"
               )}
             >
@@ -143,9 +135,7 @@ const BlogCard: React.FC<IBlogCardProps> = ({
             <p
               className={cn(
                 "text-gray-900 text-base leading-relaxed",
-                isHorizontal
-                  ? "laptop:line-clamp-4"
-                  : "line-clamp-3 text-ellipsis"
+                isHorizontal ? "lg:line-clamp-4" : "line-clamp-3 text-ellipsis"
               )}
             >
               {description.length > 190
