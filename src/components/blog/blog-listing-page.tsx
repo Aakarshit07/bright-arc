@@ -1,14 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useBlogStore } from "@/stores/blog-store";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
 import { BlogCategoryTabs } from "@/components/blog/blog-category-tabs";
 import { BlogList } from "@/components/blog/blog-list";
 import BlogHeroSection from "@/components/blog/blog-hero-section";
 import type { IBlog, ICategory, ICategoryWithCount } from "@/types/blog.types";
-import { showError, showSuccess } from "@/lib/toast-utils";
 
 interface BlogListingPageProps {
   initialBlogs: IBlog[];
@@ -19,71 +16,68 @@ export default function BlogListingPage({
   initialBlogs,
   initialCategories,
 }: BlogListingPageProps) {
-  const {
-    blogs,
-    categories,
-    activeCategory,
-    isLoading,
-    hasMore,
-    setBlogs,
-    setCategories,
-    fetchBlogs,
-    fetchBlogsByCategory,
-  } = useBlogStore();
+  // Simple state management without Zustand for now
+  const [allBlogs] = useState<IBlog[]>(initialBlogs);
+  const [filteredBlogs, setFilteredBlogs] = useState<IBlog[]>(initialBlogs);
+  const [displayedBlogs, setDisplayedBlogs] = useState<IBlog[]>(
+    initialBlogs.slice(0, 12)
+  );
+  const [activeCategory, setActiveCategory] = useState<string>("all");
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const itemsPerPage = 12;
 
-  const [isLoadingMore, setIsLoadingMore] = useState(false);
-
-  // Initialize store with SSR data
-  useEffect(() => {
-    if (initialBlogs.length > 0) {
-      setBlogs(initialBlogs);
+  // Create categories with counts
+  const getBlogCountByCategory = (categoryUrlKey: string) => {
+    if (categoryUrlKey === "all") {
+      return allBlogs.length;
     }
-    if (initialCategories.length > 0) {
-      setCategories(initialCategories);
-    }
-  }, [initialBlogs, initialCategories, setBlogs, setCategories]);
+    return allBlogs.filter((blog) => blog.category.urlKey === categoryUrlKey)
+      .length;
+  };
 
-  // Create categories with counts for tabs
   const categoriesWithCount: ICategoryWithCount[] = [
     {
       _id: "all",
       categoryName: "all",
       activeStatus: "active" as const,
       urlKey: "all",
-      blogCount: initialBlogs.length,
+      blogCount: getBlogCountByCategory("all"),
     },
-    ...categories.map((category) => ({
+    ...initialCategories.map((category) => ({
       ...category,
-      blogCount: blogs.filter((blog) => blog.category._id === category._id)
-        .length,
+      blogCount: getBlogCountByCategory(category.urlKey),
     })),
   ];
 
-  const handleCategoryChange = async (category: string) => {
+  const handleCategoryChange = (category: string) => {
     if (category === activeCategory) return;
 
-    try {
-      if (category === "all") {
-        await fetchBlogs("all", true);
-      } else {
-        await fetchBlogsByCategory(category);
-      }
-    } catch (error) {
-      showError(error, "Category Change");
+    let filtered: IBlog[];
+    if (category === "all") {
+      filtered = allBlogs;
+    } else {
+      filtered = allBlogs.filter((blog) => blog.category.urlKey === category);
     }
+
+    const displayed = filtered.slice(0, itemsPerPage);
+
+    setFilteredBlogs(filtered);
+    setDisplayedBlogs(displayed);
+    setActiveCategory(category);
+    setCurrentPage(1);
   };
 
-  const handleLoadMore = async () => {
-    if (isLoading || !hasMore) return;
+  const handleLoadMore = () => {
+    const nextPage = currentPage + 1;
+    const endIndex = nextPage * itemsPerPage;
+    const newDisplayed = filteredBlogs.slice(0, endIndex);
 
-    setIsLoadingMore(true);
-    try {
-      await fetchBlogs(activeCategory, false);
-    } catch (error) {
-      showError(error, "Load More");
-    } finally {
-      setIsLoadingMore(false);
-    }
+    setDisplayedBlogs(newDisplayed);
+    setCurrentPage(nextPage);
+  };
+
+  const hasMoreBlogs = () => {
+    return displayedBlogs.length < filteredBlogs.length;
   };
 
   return (
@@ -103,56 +97,39 @@ export default function BlogListingPage({
             categories={categoriesWithCount}
             activeCategory={activeCategory}
             onCategoryChange={handleCategoryChange}
-            isLoading={isLoading}
+            isLoading={false}
           />
         </div>
 
         {/* Blog List */}
-        {isLoading && blogs.length === 0 ? (
-          <div className="flex justify-center items-center py-12">
-            <Loader2 className="h-8 w-8 animate-spin" />
-            <span className="ml-2">Loading blogs...</span>
-          </div>
+        {displayedBlogs.length > 0 ? (
+          <BlogList blogs={displayedBlogs} />
         ) : (
-          <BlogList blogs={blogs} />
+          <div className="text-center py-12">
+            <p className="text-primary-300 text-sm">No articles found.</p>
+          </div>
         )}
 
         {/* Load More Button */}
-        {hasMore && blogs.length > 0 && (
+        {hasMoreBlogs() && displayedBlogs.length > 0 && (
           <div className="text-center mt-8">
             <Button
               onClick={handleLoadMore}
-              disabled={isLoadingMore}
               variant="outline"
               size="lg"
               className="min-w-32"
             >
-              {isLoadingMore ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Loading...
-                </>
-              ) : (
-                "Load More"
-              )}
+              Load More ({filteredBlogs.length - displayedBlogs.length}{" "}
+              remaining)
             </Button>
           </div>
         )}
 
         {/* No More Results */}
-        {!hasMore && blogs.length > 0 && (
+        {!hasMoreBlogs() && displayedBlogs.length > 0 && (
           <div className="text-center mt-8">
             <p className="text-primary-300 text-sm">
               You've reached the end of the articles.
-            </p>
-          </div>
-        )}
-
-        {/* No Results */}
-        {blogs.length === 0 && !isLoading && (
-          <div className="text-center py-12">
-            <p className="text-primary-300 text-sm">
-              No articles found in this category.
             </p>
           </div>
         )}
