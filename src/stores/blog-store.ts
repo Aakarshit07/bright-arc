@@ -40,6 +40,7 @@ export const useBlogStore = create<BlogState>()(
           const response = await blogApi.getBlogBySlug(slug);
           if (response.success && response.data) {
             set({ currentBlog: response.data });
+            console.log("Fetched Blog by cat:", response.data);
             return response.data;
           } else {
             showError(response, "Loading Blog");
