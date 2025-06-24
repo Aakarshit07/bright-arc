@@ -5,7 +5,7 @@ import { blogApi } from "@/lib/api/blog-api";
 import type { IBlog, ICategory } from "@/types/blog.types";
 import { BlogListingSkeleton } from "@/components/blog/blog-listing-skeleton";
 
-// Server-side data fetching
+// Server-side data fetching with revalidation
 async function getBlogsData(): Promise<{
   blogs: IBlog[];
   categories: ICategory[];
@@ -40,6 +40,9 @@ export default async function BlogsPage() {
     </DefaultLayout>
   );
 }
+
+// Enable ISR (Incremental Static Regeneration) - revalidate every 60 seconds
+export const revalidate = 60;
 
 // Generate metadata for SEO
 export async function generateMetadata() {

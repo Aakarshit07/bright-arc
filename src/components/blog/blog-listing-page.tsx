@@ -1,11 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { BlogCategoryTabs } from "@/components/blog/blog-category-tabs";
 import { BlogList } from "@/components/blog/blog-list";
 import BlogHeroSection from "@/components/blog/blog-hero-section";
-import type { IBlog, ICategory, ICategoryWithCount } from "@/types/blog.types";
+import { blogApi } from "@/lib/api/blog-api";
+import type { IBlog, ICategory } from "@/types/blog.types";
+import { Loader2 } from "lucide-react";
 
 interface BlogListingPageProps {
   initialBlogs: IBlog[];
@@ -16,69 +18,97 @@ export default function BlogListingPage({
   initialBlogs,
   initialCategories,
 }: BlogListingPageProps) {
-  // Simple state management without Zustand for now
-  const [allBlogs] = useState<IBlog[]>(initialBlogs);
-  const [filteredBlogs, setFilteredBlogs] = useState<IBlog[]>(initialBlogs);
-  const [displayedBlogs, setDisplayedBlogs] = useState<IBlog[]>(
-    initialBlogs.slice(0, 12)
-  );
+  const [blogs, setBlogs] = useState<IBlog[]>(initialBlogs);
+  const [categories] = useState<ICategory[]>(initialCategories);
   const [activeCategory, setActiveCategory] = useState<string>("all");
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [hasMore, setHasMore] = useState<boolean>(true);
+
   const itemsPerPage = 12;
 
-  // Create categories with counts
-  const getBlogCountByCategory = (categoryUrlKey: string) => {
-    if (categoryUrlKey === "all") {
-      return allBlogs.length;
-    }
-    return allBlogs.filter((blog) => blog.category.urlKey === categoryUrlKey)
-      .length;
-  };
-
-  const categoriesWithCount: ICategoryWithCount[] = [
+  // Create categories with counts from backend data
+  const categoriesWithAll: ICategory[] = [
     {
       _id: "all",
       categoryName: "all",
       activeStatus: "active" as const,
       urlKey: "all",
-      blogCount: getBlogCountByCategory("all"),
+      blogCount: initialBlogs.length,
+      createdAt: new Date(),
+      updatedAt: new Date(),
     },
-    ...initialCategories.map((category) => ({
-      ...category,
-      blogCount: getBlogCountByCategory(category.urlKey),
-    })),
+    ...categories, // No need to map, just spread directly
   ];
 
-  const handleCategoryChange = (category: string) => {
-    if (category === activeCategory) return;
+  // Fetch blogs by category from API instead of filtering
+  const fetchBlogsByCategory = useCallback(
+    async (categoryUrlKey: string, page = 1) => {
+      setIsLoading(true);
 
-    let filtered: IBlog[];
-    if (category === "all") {
-      filtered = allBlogs;
-    } else {
-      filtered = allBlogs.filter((blog) => blog.category.urlKey === category);
-    }
+      try {
+        let response;
 
-    const displayed = filtered.slice(0, itemsPerPage);
+        if (categoryUrlKey === "all") {
+          response = await blogApi.getAllBlogs();
+        } else {
+          response = await blogApi.getBlogsByCategory(categoryUrlKey);
+        }
 
-    setFilteredBlogs(filtered);
-    setDisplayedBlogs(displayed);
-    setActiveCategory(category);
-    setCurrentPage(1);
-  };
+        if (response.success && response.data) {
+          const fetchedBlogs = Array.isArray(response.data)
+            ? response.data
+            : [response.data];
 
-  const handleLoadMore = () => {
+          if (page === 1) {
+            // First page - replace blogs
+            const paginatedBlogs = fetchedBlogs.slice(0, itemsPerPage);
+            setBlogs(paginatedBlogs);
+            setHasMore(fetchedBlogs.length > itemsPerPage);
+          } else {
+            // Load more - append blogs
+            const startIndex = (page - 1) * itemsPerPage;
+            const endIndex = page * itemsPerPage;
+            const newBlogs = fetchedBlogs.slice(startIndex, endIndex);
+
+            setBlogs((prev) => [...prev, ...newBlogs]);
+            setHasMore(endIndex < fetchedBlogs.length);
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching blogs:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    []
+  );
+
+  // Handle category change
+  const handleCategoryChange = useCallback(
+    async (category: string) => {
+      if (category === activeCategory) return;
+
+      setActiveCategory(category);
+      setCurrentPage(1);
+      await fetchBlogsByCategory(category, 1);
+    },
+    [activeCategory, fetchBlogsByCategory]
+  );
+
+  // Handle load more
+  const handleLoadMore = useCallback(async () => {
     const nextPage = currentPage + 1;
-    const endIndex = nextPage * itemsPerPage;
-    const newDisplayed = filteredBlogs.slice(0, endIndex);
-
-    setDisplayedBlogs(newDisplayed);
     setCurrentPage(nextPage);
-  };
+    await fetchBlogsByCategory(activeCategory, nextPage);
+  }, [currentPage, activeCategory, fetchBlogsByCategory]);
 
-  const hasMoreBlogs = () => {
-    return displayedBlogs.length < filteredBlogs.length;
-  };
+  // Initial load effect
+  useEffect(() => {
+    // Set initial blogs from props
+    setBlogs(initialBlogs.slice(0, itemsPerPage));
+    setHasMore(initialBlogs.length > itemsPerPage);
+  }, [initialBlogs]);
 
   return (
     <section className="py-12 bg-background flex flex-col gap-[70px] md:gap-[106px]">
@@ -94,39 +124,53 @@ export default function BlogListingPage({
         {/* Category Tabs */}
         <div className="mb-8">
           <BlogCategoryTabs
-            categories={categoriesWithCount}
+            categories={categoriesWithAll}
             activeCategory={activeCategory}
             onCategoryChange={handleCategoryChange}
-            isLoading={false}
+            isLoading={isLoading}
           />
         </div>
 
-        {/* Blog List */}
-        {displayedBlogs.length > 0 ? (
-          <BlogList blogs={displayedBlogs} />
-        ) : (
-          <div className="text-center py-12">
-            <p className="text-primary-300 text-sm">No articles found.</p>
+        {/* Loading State */}
+        {isLoading && blogs.length === 0 && (
+          <div className="flex justify-center items-center py-12">
+            <Loader2 className="h-8 w-8 animate-spin" />
           </div>
         )}
 
+        {/* Blog List */}
+        {blogs.length > 0 ? (
+          <BlogList blogs={blogs} />
+        ) : !isLoading ? (
+          <div className="text-center py-12">
+            <p className="text-primary-300 text-sm">No articles found.</p>
+          </div>
+        ) : null}
+
         {/* Load More Button */}
-        {hasMoreBlogs() && displayedBlogs.length > 0 && (
+        {hasMore && blogs.length > 0 && (
           <div className="text-center mt-8">
             <Button
               onClick={handleLoadMore}
               variant="outline"
               size="lg"
               className="min-w-32"
+              disabled={isLoading}
             >
-              Load More ({filteredBlogs.length - displayedBlogs.length}{" "}
-              remaining)
+              {isLoading ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                  Loading...
+                </>
+              ) : (
+                "Load More"
+              )}
             </Button>
           </div>
         )}
 
         {/* No More Results */}
-        {!hasMoreBlogs() && displayedBlogs.length > 0 && (
+        {!hasMore && blogs.length > 0 && (
           <div className="text-center mt-8">
             <p className="text-primary-300 text-sm">
               You've reached the end of the articles.

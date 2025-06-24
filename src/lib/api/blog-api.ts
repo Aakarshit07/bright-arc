@@ -15,6 +15,12 @@ class BlogApiService {
           "Content-Type": "application/json",
           ...options.headers,
         },
+        // Add cache control for production
+        cache: process.env.NODE_ENV === "production" ? "no-store" : "default",
+        // Add revalidation for ISR
+        next: {
+          revalidate: process.env.NODE_ENV === "production" ? 60 : 0,
+        },
         ...options,
       });
 
@@ -26,12 +32,12 @@ class BlogApiService {
       }
 
       const data = await response.json();
-      console.log("Blog API Response:", data);
       return {
         success: true,
         data,
       };
     } catch (error) {
+      console.error("API Error:", error);
       return {
         success: false,
         data: null as T,
@@ -43,13 +49,7 @@ class BlogApiService {
 
   // Blog APIs
   async getAllBlogs(): Promise<ApiResponse<IBlog[]>> {
-    // const queryParams = new URLSearchParams();
-    // if (filters?.page) queryParams.append("page", filters.page.toString());
-    // if (filters?.limit) queryParams.append("limit", filters.limit.toString());
-    // if (filters?.search) queryParams.append("search", filters.search);
-
     const endpoint = `/blogs`;
-    // ${queryParams.toString() ? `?${queryParams.toString()}` : ""};
     return this.fetchApi<IBlog[]>(endpoint);
   }
 
@@ -77,12 +77,14 @@ class BlogApiService {
   async likeBlog(slug: string): Promise<ApiResponse<{ likeCount: number }>> {
     return this.fetchApi<{ likeCount: number }>(`/blogs/${slug}/like`, {
       method: "POST",
+      cache: "no-store", // Don't cache mutations
     });
   }
 
   async unlikeBlog(slug: string): Promise<ApiResponse<{ likeCount: number }>> {
     return this.fetchApi<{ likeCount: number }>(`/blogs/${slug}/unlike`, {
       method: "POST",
+      cache: "no-store", // Don't cache mutations
     });
   }
 
@@ -94,6 +96,7 @@ class BlogApiService {
     return this.fetchApi<IBlog>(`/blogs/${slug}/comments`, {
       method: "POST",
       body: JSON.stringify(comment),
+      cache: "no-store", // Don't cache mutations
     });
   }
 

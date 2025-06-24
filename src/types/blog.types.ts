@@ -6,6 +6,7 @@ export interface ICategory {
   urlKey: string;
   createdAt?: Date;
   updatedAt?: Date;
+  blogCount: number; // Count from backend
 }
 
 export interface IComment {
@@ -38,10 +39,6 @@ export interface IBlogListResponse {
   hasMore: boolean;
 }
 
-export interface ICategoryWithCount extends ICategory {
-  blogCount: number;
-}
-
 // API Response types
 export interface ApiResponse<T> {
   success: boolean;
@@ -56,4 +53,11 @@ export interface BlogFilters {
   page?: number;
   limit?: number;
   search?: string;
+}
+
+// Revalidation types
+export interface RevalidationRequest {
+  path?: string;
+  tag?: string;
+  secret: string;
 }
