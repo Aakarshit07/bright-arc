@@ -13,38 +13,51 @@ interface BlogDetailPageProps {
 // Server-side data fetching for individual blog
 async function getBlogData(slug: string): Promise<IBlog | null> {
   try {
+    console.log("Fetching blog data for slug:", slug);
+
     const response = await blogApi.getBlogBySlug(slug);
-    return response.success ? response.data : null;
+
+    if (response.success && response.data) {
+      console.log("Successfully fetched blog:", response.data.title);
+      return response.data;
+    } else {
+      console.error("Failed to fetch blog:", response.error);
+      return null;
+    }
   } catch (error) {
+    console.error("Error in getBlogData:", error);
     return null;
   }
 }
 
-// Fetch related blogs from the same category (simplified approach)
+// Fetch related blogs from the same category
 async function getRelatedBlogs(
   categoryUrlKey: string,
   currentBlogId: string
 ): Promise<IBlog[]> {
   try {
-    // First try to get blogs by category
+    console.log("Fetching related blogs for category:", categoryUrlKey);
+
     const categoryResponse = await blogApi.getBlogsByCategory(categoryUrlKey);
-    if (categoryResponse.success) {
-      return categoryResponse.data
+    if (categoryResponse.success && categoryResponse.data) {
+      const relatedBlogs = categoryResponse.data
         .filter((blog) => blog._id !== currentBlogId)
         .slice(0, 6);
+      console.log("Found related blogs:", relatedBlogs.length);
+      return relatedBlogs;
     }
 
     // Fallback: get all blogs and filter by category
-    console.log("Category API failed, trying getAllBlogs fallback");
     const allBlogsResponse = await blogApi.getAllBlogs();
-    if (allBlogsResponse.success) {
-      return allBlogsResponse.data
+    if (allBlogsResponse.success && allBlogsResponse.data) {
+      const relatedBlogs = allBlogsResponse.data
         .filter(
           (blog) =>
             blog._id !== currentBlogId &&
             blog.category.urlKey === categoryUrlKey
         )
         .slice(0, 6);
+      return relatedBlogs;
     }
 
     return [];
@@ -55,62 +68,79 @@ async function getRelatedBlogs(
 }
 
 export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
-  // Await params in Next.js 15
-  const { blogdetails: blogId } = await params;
-  // console.log("Blog ID from params:", params);
+  try {
+    const { blogdetails: blogSlug } = await params;
+    console.log("Blog slug from params:", blogSlug);
 
-  const blog = await getBlogData(blogId);
-  if (!blog) {
-    console.log("Blog not found, redirecting to 404");
+    if (!blogSlug || typeof blogSlug !== "string") {
+      console.error("Invalid blog slug:", blogSlug);
+      notFound();
+    }
+
+    const blog = await getBlogData(blogSlug);
+    if (!blog) {
+      console.log("Blog not found, redirecting to 404");
+      notFound();
+    }
+
+    const relatedBlogs = await getRelatedBlogs(blog.category.urlKey, blog._id);
+
+    return (
+      <DefaultLayout>
+        <BlogLayout blog={blog} relatedBlogs={relatedBlogs} />
+      </DefaultLayout>
+    );
+  } catch (error) {
+    console.error("Error in BlogDetailPage:", error);
     notFound();
   }
-
-  // Get related blogs from the same category
-  const relatedBlogs = await getRelatedBlogs(blog.category.urlKey, blog._id);
-
-  return (
-    <DefaultLayout>
-      <BlogLayout blog={blog} relatedBlogs={relatedBlogs} />
-    </DefaultLayout>
-  );
 }
 
 // Generate metadata for SEO
 export async function generateMetadata({ params }: BlogDetailPageProps) {
-  const { blogdetails: blogId } = await params;
-  const blog = await getBlogData(blogId);
+  try {
+    const { blogdetails: blogSlug } = await params;
 
-  if (!blog) {
+    if (!blogSlug) {
+      return {
+        title: "Blog Not Found",
+      };
+    }
+
+    const blog = await getBlogData(blogSlug);
+
+    if (!blog) {
+      return {
+        title: "Blog Not Found",
+      };
+    }
+
+    const description = blog.content
+      ? blog.content.replace(/<[^>]*>/g, "").substring(0, 160) + "..."
+      : "Read this blog post for insights and expert advice.";
+
+    return {
+      title: blog.title,
+      description,
+      openGraph: {
+        title: blog.title,
+        description,
+        images: blog.image ? [blog.image] : [],
+        type: "article",
+        publishedTime: blog.postDate,
+        authors: [blog.author],
+      },
+    };
+  } catch (error) {
+    console.error("Error generating metadata:", error);
     return {
       title: "Blog Not Found",
     };
   }
-
-  return {
-    title: blog.title,
-    description: blog.content.substring(0, 160) + "...",
-    openGraph: {
-      title: blog.title,
-      description: blog.content.substring(0, 160) + "...",
-      images: blog.image ? [blog.image] : [],
-      type: "article",
-      publishedTime: blog.postDate,
-      authors: [blog.author],
-    },
-  };
 }
 
-// Generate static params for better performance (optional)
-export async function generateStaticParams() {
-  try {
-    const response = await blogApi.getAllBlogs();
-    const blogs = response.success ? response.data : [];
+// REMOVED: generateStaticParams function
+// This makes the page fully dynamic
 
-    return blogs.map((blog) => ({
-      blogId: blog.slug,
-    }));
-  } catch (error) {
-    console.error("Error generating static params:", error);
-    return [];
-  }
-}
+// Enable ISR with revalidation for caching
+export const revalidate = 300; // 5 minutes
