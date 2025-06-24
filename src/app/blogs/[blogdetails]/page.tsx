@@ -13,15 +13,11 @@ interface BlogDetailPageProps {
 // Server-side data fetching for individual blog
 async function getBlogData(slug: string): Promise<IBlog | null> {
   try {
-    console.log("Fetching blog data for slug:", slug);
-
     const response = await blogApi.getBlogBySlug(slug);
 
     if (response.success && response.data) {
-      console.log("Successfully fetched blog:", response.data.title);
       return response.data;
     } else {
-      console.error("Failed to fetch blog:", response.error);
       return null;
     }
   } catch (error) {
@@ -36,14 +32,11 @@ async function getRelatedBlogs(
   currentBlogId: string
 ): Promise<IBlog[]> {
   try {
-    console.log("Fetching related blogs for category:", categoryUrlKey);
-
     const categoryResponse = await blogApi.getBlogsByCategory(categoryUrlKey);
     if (categoryResponse.success && categoryResponse.data) {
       const relatedBlogs = categoryResponse.data
         .filter((blog) => blog._id !== currentBlogId)
         .slice(0, 6);
-      console.log("Found related blogs:", relatedBlogs.length);
       return relatedBlogs;
     }
 
@@ -70,16 +63,12 @@ async function getRelatedBlogs(
 export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
   try {
     const { blogdetails: blogSlug } = await params;
-    console.log("Blog slug from params:", blogSlug);
-
     if (!blogSlug || typeof blogSlug !== "string") {
-      console.error("Invalid blog slug:", blogSlug);
       notFound();
     }
 
     const blog = await getBlogData(blogSlug);
     if (!blog) {
-      console.log("Blog not found, redirecting to 404");
       notFound();
     }
 
@@ -138,9 +127,6 @@ export async function generateMetadata({ params }: BlogDetailPageProps) {
     };
   }
 }
-
-// REMOVED: generateStaticParams function
-// This makes the page fully dynamic
 
 // Enable ISR with revalidation for caching
 export const revalidate = 300; // 5 minutes

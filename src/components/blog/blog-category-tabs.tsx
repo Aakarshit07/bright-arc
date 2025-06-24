@@ -17,7 +17,6 @@ export function BlogCategoryTabs({
   onCategoryChange,
   isLoading = false,
 }: BlogCategoryTabsProps) {
-  console.log("BlogCategoryTabs rendered with categories:", categories);
   return (
     <div className="relative">
       {isLoading && (

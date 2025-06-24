@@ -12,8 +12,6 @@ class ContactApiService {
   ): Promise<T> {
     try {
       const url = `${API_BASE_URL}/api${endpoint}`;
-      console.log("Making contact API request to:", url);
-
       const response = await fetch(url, {
         headers: {
           "Content-Type": "application/json",
@@ -21,8 +19,6 @@ class ContactApiService {
         },
         ...options,
       });
-
-      console.log("Contact API Response status:", response.status);
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
@@ -32,8 +28,6 @@ class ContactApiService {
       }
 
       const data = await response.json();
-      console.log("Contact API Success:", data);
-
       return data;
     } catch (error) {
       console.error("Contact API Error:", error);
