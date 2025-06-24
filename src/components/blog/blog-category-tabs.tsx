@@ -17,6 +17,13 @@ export function BlogCategoryTabs({
   onCategoryChange,
   isLoading = false,
 }: BlogCategoryTabsProps) {
+  const filteredCategories = categories.filter(
+    (category) =>
+      category.activeStatus === "active" &&
+      category.blogCount > 0 &&
+      category.categoryName !== "unassigned"
+  );
+
   return (
     <div className="relative">
       {isLoading && (
@@ -31,7 +38,7 @@ export function BlogCategoryTabs({
         className="w-full"
       >
         <TabsList className="p-0 h-auto bg-background gap-4 flex-wrap justify-start">
-          {categories.map((category) => (
+          {filteredCategories.map((category) => (
             <TabsTrigger
               key={category._id}
               value={category._id === "all" ? "all" : category.urlKey}

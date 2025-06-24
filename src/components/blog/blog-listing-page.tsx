@@ -38,7 +38,7 @@ export default function BlogListingPage({
       createdAt: new Date(),
       updatedAt: new Date(),
     },
-    ...categories, // No need to map, just spread directly
+    ...categories,
   ];
 
   // Fetch blogs by category from API instead of filtering
