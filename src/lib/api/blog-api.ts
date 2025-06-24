@@ -5,18 +5,19 @@ class BlogApiService {
     endpoint: string,
     options: RequestInit = {}
   ): Promise<ApiResponse<T>> {
+    const API_BASE_URL =
+      process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+
     try {
-      const response = await fetch(
-        `https://brightarcbackend-5p0v.onrender.com/api${endpoint}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            ...options.headers,
-          },
-          ...options,
-        }
-      );
-      console.log("Blog API Response:", response);
+      const url = `${API_BASE_URL}/api${endpoint}`;
+      const response = await fetch(url, {
+        headers: {
+          "Content-Type": "application/json",
+          ...options.headers,
+        },
+        ...options,
+      });
+
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
         throw new Error(
@@ -25,7 +26,7 @@ class BlogApiService {
       }
 
       const data = await response.json();
-
+      console.log("Blog API Response:", data);
       return {
         success: true,
         data,

@@ -3,8 +3,7 @@ import type {
   ContactApiResponse,
 } from "@/types/contact.types";
 
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
 class ContactApiService {
   private async fetchApi<T>(
@@ -12,7 +11,7 @@ class ContactApiService {
     options: RequestInit = {}
   ): Promise<T> {
     try {
-      const url = `https://brightarcbackend-5p0v.onrender.com/api${endpoint}`;
+      const url = `${API_BASE_URL}/api${endpoint}`;
       console.log("Making contact API request to:", url);
 
       const response = await fetch(url, {
