@@ -1,7 +1,9 @@
 "use client";
 
-import type React from "react";
-import { useState } from "react";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -22,102 +24,60 @@ const MapLeaflet = dynamic(() => import("@/components/shared/MapLeaflet"), {
   ssr: false,
 });
 
+const formSchema = z.object({
+  name: z.string().min(1, "Name is required"),
+  email: z.string().min(1, "Email is required").email("Invalid email address"),
+  phone: z
+    .string()
+    .min(1, "Phone number is required")
+    .regex(/^[6-9]\d{9}$/, "Enter valid 10-digit Indian number"),
+  source: z.string().min(1, "Please select how you found us"),
+  message: z.string().min(1, "Message is required"),
+});
+
+type ContactFormValues = z.infer<typeof formSchema>;
+
 interface ContactFormProps {
   className?: string;
 }
 
 export function ContactForm({ className }: ContactFormProps) {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    source: "",
-    message: "",
+  const {
+    register,
+    handleSubmit,
+    control,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<ContactFormValues>({
+    resolver: zodResolver(formSchema),
   });
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    // Basic validation
-    if (!formData.name.trim()) {
-      showError("Name is required", "Validation Error");
-      return;
-    }
-
-    if (!formData.phone.trim()) {
-      showError("Phone number is required", "Validation Error");
-      return;
-    }
-
-    if (!formData.email.trim()) {
-      showError("Email is required", "Validation Error");
-      return;
-    }
-
-    if (!formData.source) {
-      showError("Please select how you found us", "Validation Error");
-      return;
-    }
-
-    if (!formData.message.trim()) {
-      showError("Message is required", "Validation Error");
-      return;
-    }
-
-    setIsSubmitting(true);
-
+  const onSubmit: SubmitHandler<ContactFormValues> = async (data) => {
     try {
-      // Map form data to match backend API expectations
       const apiData = {
-        name: formData.name.trim(),
-        email: formData.email.trim(),
-        mobile: formData.phone.trim(), // Backend expects 'mobile' not 'phone'
-        source: formData.source,
-        message: formData.message.trim(),
+        name: data.name.trim(),
+        email: data.email.trim(),
+        mobile: data.phone.trim(),
+        source: data.source,
+        message: data.message.trim(),
       };
 
       const response = await contactApi.submitContactForm(apiData);
 
       if (response.success) {
-        showSuccess(
-          "Thank you! We'll get back to you within 24-48 hours.",
-          "Message Sent Successfully"
-        );
-        // Reset form
-        setFormData({
-          name: "",
-          email: "",
-          phone: "",
-          source: "",
-          message: "",
-        });
+        showSuccess("Thank you! We'll get back to you soon.", "Success");
+        reset();
       } else {
-        showError(
-          response.error || "Failed to send message. Please try again.",
-          "Submission Failed"
-        );
+        showError(response.error || "Submission failed", "Error");
       }
     } catch (error) {
-      showError(
-        "Network error. Please check your connection and try again.",
-        "Connection Error"
-      );
-      console.error("Contact form submission error:", error);
-    } finally {
-      setIsSubmitting(false);
+      showError("Network error. Please try again.", "Connection Error");
     }
-  };
-
-  const handleInputChange = (field: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
   return (
     <section className={cn("py-16", className)}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
             Contact Us
@@ -127,37 +87,24 @@ export function ContactForm({ className }: ContactFormProps) {
           </p>
         </div>
 
-        {/* Main Content */}
         <div className="max-w-6xl mx-auto">
-          {/* Container with Secondary Border */}
           <div className="relative border border-secondary-500 rounded-3xl">
-            {/* Inner Container with Split Background */}
             <div className="relative bg-white rounded-3xl overflow-hidden">
-              {/* Background Split - Responsive */}
               <div className="absolute inset-0">
-                {/* Desktop: Left-Right Split */}
                 <div className="hidden lg:flex h-full">
-                  {/* White Background - 65% */}
                   <div className="w-[65%] bg-white"></div>
-                  {/* Blue Background - 35% */}
                   <div className="w-[35%] bg-primary-900"></div>
                 </div>
-
-                {/* Mobile: Top-Bottom Split */}
                 <div className="flex lg:hidden flex-col h-full">
-                  {/* White Background - 65% */}
                   <div className="h-[65%] bg-white"></div>
-                  {/* Blue Background - 35% */}
                   <div className="h-[35%] bg-primary-900"></div>
                 </div>
               </div>
 
-              {/* Content Container */}
               <div className="relative z-10 flex flex-col lg:flex-row">
                 {/* Form Section */}
                 <div className="w-full lg:w-[60%] p-8 lg:p-12">
                   <div className="max-w-md mx-auto">
-                    {/* Blue Icon and Header */}
                     <div className="mb-6">
                       <h3 className="text-2xl font-bold text-primary-900 mb-2">
                         Get in Touch
@@ -170,101 +117,108 @@ export function ContactForm({ className }: ContactFormProps) {
                       netus.
                     </p>
 
-                    {/* Form */}
-                    <form onSubmit={handleSubmit} className="space-y-5">
-                      {/* Name Field */}
+                    <form
+                      onSubmit={handleSubmit(onSubmit)}
+                      className="space-y-5"
+                    >
                       <div>
                         <Input
                           type="text"
                           placeholder="Name *"
-                          value={formData.name}
-                          onChange={(e) =>
-                            handleInputChange("name", e.target.value)
-                          }
-                          required
-                          className="w-full"
+                          {...register("name")}
                           disabled={isSubmitting}
                         />
+                        {errors.name && (
+                          <p className="text-danger-50 text-xs mt-1">
+                            {errors.name.message}
+                          </p>
+                        )}
                       </div>
 
-                      {/* Email Field */}
                       <div>
                         <Input
                           type="email"
                           placeholder="Email *"
-                          value={formData.email}
-                          onChange={(e) =>
-                            handleInputChange("email", e.target.value)
-                          }
-                          required
-                          className="w-full"
+                          {...register("email")}
                           disabled={isSubmitting}
                         />
+                        {errors.email && (
+                          <p className="text-danger-50 text-xs mt-1">
+                            {errors.email.message}
+                          </p>
+                        )}
                       </div>
 
-                      {/* Phone Field */}
                       <div>
                         <Input
                           type="tel"
                           placeholder="Phone number *"
-                          value={formData.phone}
-                          onChange={(e) =>
-                            handleInputChange("phone", e.target.value)
-                          }
-                          required
-                          className="w-full"
+                          {...register("phone")}
                           disabled={isSubmitting}
                         />
+                        {errors.phone && (
+                          <p className="text-danger-50 text-xs mt-1">
+                            {errors.phone.message}
+                          </p>
+                        )}
                       </div>
 
-                      {/* Source Dropdown */}
                       <div>
-                        <Select
-                          onValueChange={(value) =>
-                            handleInputChange("source", value)
-                          }
-                          disabled={isSubmitting}
-                          value={formData.source}
-                        >
-                          <SelectTrigger className="w-full">
-                            <SelectValue
-                              placeholder="How did you find us? *"
-                              className="text-gray-400"
-                            />
-                          </SelectTrigger>
-                          <SelectContent className="bg-white">
-                            <SelectItem value="google">
-                              Google Search
-                            </SelectItem>
-                            <SelectItem value="social-media">
-                              Social Media
-                            </SelectItem>
-                            <SelectItem value="referral">Referral</SelectItem>
-                            <SelectItem value="linkedin">LinkedIn</SelectItem>
-                            <SelectItem value="website">Website</SelectItem>
-                            <SelectItem value="advertisement">
-                              Advertisement
-                            </SelectItem>
-                            <SelectItem value="other">Other</SelectItem>
-                          </SelectContent>
-                        </Select>
+                        <Controller
+                          control={control}
+                          name="source"
+                          render={({ field }) => (
+                            <Select
+                              onValueChange={field.onChange}
+                              value={field.value}
+                              disabled={isSubmitting}
+                            >
+                              <SelectTrigger className="w-full">
+                                <SelectValue placeholder="How did you find us? *" />
+                              </SelectTrigger>
+                              <SelectContent className="bg-white">
+                                <SelectItem value="google">
+                                  Google Search
+                                </SelectItem>
+                                <SelectItem value="social-media">
+                                  Social Media
+                                </SelectItem>
+                                <SelectItem value="referral">
+                                  Referral
+                                </SelectItem>
+                                <SelectItem value="linkedin">
+                                  LinkedIn
+                                </SelectItem>
+                                <SelectItem value="website">Website</SelectItem>
+                                <SelectItem value="advertisement">
+                                  Advertisement
+                                </SelectItem>
+                                <SelectItem value="other">Other</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          )}
+                        />
+                        {errors.source && (
+                          <p className="text-danger-50 text-xs mt-1">
+                            {errors.source.message}
+                          </p>
+                        )}
                       </div>
 
-                      {/* Message Field */}
                       <div>
                         <Textarea
                           placeholder="Your Message *"
-                          value={formData.message}
-                          onChange={(e) =>
-                            handleInputChange("message", e.target.value)
-                          }
+                          {...register("message")}
                           className="w-full resize-none"
-                          required
                           disabled={isSubmitting}
                         />
+                        {errors.message && (
+                          <p className="text-danger-50 text-xs mt-1">
+                            {errors.message.message}
+                          </p>
+                        )}
                       </div>
 
-                      {/* Submit Button */}
                       <Button
                         type="submit"
                         disabled={isSubmitting}
@@ -281,7 +235,6 @@ export function ContactForm({ className }: ContactFormProps) {
                       </Button>
                     </form>
 
-                    {/* Contact Information */}
                     <div className="flex flex-col items-start sm:flex-row sm:items-center sm:justify-evenly mt-6 gap-2">
                       <div className="flex items-center gap-4">
                         <Phone className="w-6 h-6 text-gray-900" />
@@ -309,7 +262,7 @@ export function ContactForm({ className }: ContactFormProps) {
                   </div>
                 </div>
 
-                {/* Image Section - Overlapping both backgrounds */}
+                {/* Map Section */}
                 <div className="w-full lg:w-[40%] p-8 lg:p-12 lg:pl-0 flex items-center justify-center lg:justify-end">
                   <div className="w-full max-w-md">
                     <div className="relative">
