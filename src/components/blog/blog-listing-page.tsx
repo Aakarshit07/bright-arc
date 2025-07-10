@@ -110,6 +110,10 @@ export default function BlogListingPage({
     setHasMore(initialBlogs.length > itemsPerPage);
   }, [initialBlogs]);
 
+  const filteredBlogs = blogs.filter(
+    (blog) => blog.category.categoryName !== "unassigned"
+  );
+
   return (
     <section className="py-12 bg-background flex flex-col gap-[70px] md:gap-[106px]">
       <div className="container mx-auto px-4 lg:px-16 max-w-7xl">
@@ -140,7 +144,7 @@ export default function BlogListingPage({
 
         {/* Blog List */}
         {blogs.length > 0 ? (
-          <BlogList blogs={blogs} />
+          <BlogList blogs={filteredBlogs} />
         ) : !isLoading ? (
           <div className="text-center py-12">
             <p className="text-primary-300 text-sm">No articles found.</p>
